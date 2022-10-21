@@ -44,7 +44,8 @@ with st.sidebar:
         if(len(functions.Functions.ADDED_SIGNALS)):
             todelete_list=[]
             for signal in range(len(functions.Functions.ADDED_SIGNALS)):
-                todelete_list.append(st.checkbox(f"freq={functions.Functions.ADDED_FREQUENCES[signal]}, amp={functions.Functions.ADDED_AMPLITUDES[signal] }, phase={functions.Functions.ADDED_PHASES[signal]}",))
+                todelete_list.append(f"freq={functions.Functions.ADDED_FREQUENCES[signal]}, amp={functions.Functions.ADDED_AMPLITUDES[signal] }, phase={functions.Functions.ADDED_PHASES[signal]}",)
+            todelete_list=st.multiselect("choose the signal you want to delete",options=todelete_list,key='disabled' ,default=None)
             if st.button(' DELETE '):
                 for todeleteSigindex in range(len(todelete_list)):
                     if(todelete_list[todeleteSigindex]):

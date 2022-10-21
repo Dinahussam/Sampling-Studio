@@ -22,7 +22,7 @@ class Functions:
     amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Current_amplitude=np.zeros(1000)
 
-x_Time = np.arange(0, 2, 0.0005).tolist()  # Time Axis Array
+x_Time = np.arange(0, 0.5, 0.0005).tolist()  # Time Axis Array
 
 def SHOW_SIN(magnitude, phase, frequency):  # Add new sin signal
 
@@ -101,7 +101,7 @@ def ysampling(tsampling):
         
 def sinc_interp(factor):
     fmax= max(Functions.ADDED_FREQUENCES)
-    sampling_time= np.arange(0,2,1/(fmax*factor))
+    sampling_time= np.arange(0,0.5,1/(fmax*factor))
     sampling_y= ysampling(sampling_time)
     print(f"time={sampling_time}")
     print(f"y={sampling_y}")
