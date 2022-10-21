@@ -58,18 +58,14 @@ with st.sidebar:
         if(len(functions.Functions.ADDED_SIGNALS)):
             todelete_list=[]
             for signal in range(len(functions.Functions.ADDED_SIGNALS)):
-                todelete_list.append(st.checkbox(f"freq={functions.Functions.ADDED_FREQUENCES[signal]}, amp={functions.Functions.ADDED_AMPLITUDES[signal] }, phase={functions.Functions.ADDED_PHASES[signal]}",))
+                todelete_list.append(f"freq={functions.Functions.ADDED_FREQUENCES[signal]}, amp={functions.Functions.ADDED_AMPLITUDES[signal] }, phase={functions.Functions.ADDED_PHASES[signal]}",)
+            todelete_list=st.multiselect("choose the signal you want to delete",options=todelete_list,key='disabled' ,default=None)
             if st.button(' DELETE '):
                 for todeleteSigindex in range(len(todelete_list)):
                     if(todelete_list[todeleteSigindex]):
                         functions.DELETE_SIGNAL(todeleteSigindex)
         else:
             st.title("You have no added signals to delete")
-        # todelete_list=st.multiselect("choose the signal you want to delete",options=functions.Functions.ADDED_FREQUENCES,key='disabled' ,default=None)
-        # print(todelete_list)
-        # if st.button(' DELETE signal'):
-        #     for todelete_sig in todelete_list:
-        #         res_fig=functions.DELETE_SIGNAL(todelete_sig)
     with tab2:
         snr_value =st.slider('SNR ratio',0 , 10000,10000)
         res_fig=functions.SHOW_NOISE(snr_value)     
@@ -87,6 +83,14 @@ with st.sidebar:
     #         samp_fig=functions.sinc_interp(samp_factor)
     #     else:
     #         st.title("Construct your signal you want to sample first")
+        if(len(functions.Functions.ADDED_FREQUENCES)>0):
+            maxFreq= max(functions.Functions.ADDED_FREQUENCES)
+            st.title(f'max freq= {maxFreq}') 
+            st.write('the sampling freq = sampling factor*max feq')
+            samp_factor= st.slider('sampling factor', 1 , 20, 2, 1)
+            samp_fig=functions.sinc_interp(samp_factor)
+        else:
+            st.title("Construct your signal you want to sample first")
 
 
 

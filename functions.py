@@ -1,8 +1,10 @@
+import re
 from telnetlib import X3PAD
 from tkinter import Y
 import numpy as np  # np mean, np random
 import pandas as pd  # read csv, df manipulation
 import plotly.graph_objects as go
+import plotly.express as px
 import streamlit as st  # 🎈 data web app development
 from pandas import *
 from signal import signal
@@ -24,7 +26,7 @@ class Functions:
     Current_amplitude=np.zeros(1000)
 
 
-x_Time = np.arange(0, 0.5, 0.0005).tolist()  # Time Axis Array for all of the graphs
+x_Time = np.arange(0, 2, 2/1000).tolist()  # Time Axis Array for all of the graphs
 
 def save_signal(file_name):
     file_name=file_name+'.csv'
@@ -110,23 +112,16 @@ def SHOW_NOISE(snrRatio):
 def ysampling(tsampling):
     sampling_y=[]
     for point in tsampling:
-        sampling_y.append(np.interp(point,x_Time, Functions.Current_amplitude))
+        sampling_y.append(np.interp(point, Functions.Current_amplitude,x_Time))
     return(sampling_y)
-        
-def sinc_interp(factor):
-    fmax= max(Functions.ADDED_FREQUENCES)
-    sampling_time= np.arange(0,2,1/(fmax*factor))
-    sampling_y= ysampling(sampling_time)
-    print(f"time={sampling_time}")
-    print(f"y={sampling_y}")
 
-    x_timeArr= np.array(x_Time)
-    # Find the period    
-    T = sampling_time[1] - sampling_time[0]
-    
-    sincM = np.tile(sampling_time, (len(x_timeArr), 1)) - np.tile(x_timeArr[:, np.newaxis], (1, len(sampling_time)))
-    newy = np.dot(sampling_y, np.sinc(sincM/T))
-    return go.Figure([go.Scatter(x=x_timeArr, y=newy)])
+def sampling(factor):
+    samp_frq=(factor)* max(Functions.ADDED_FREQUENCES)
+    time_range=math.ceil(x_Time[-1]-x_Time[0])
+    samp_rate=int((len(x_Time)/time_range)/samp_frq)
+    samp_time=x_Time[::samp_rate]
+    samp_amp= Functions.Current_amplitude[::samp_rate]
+    return samp_time,samp_amp
 
     # sincM = np.tile(sampling_time, (len(x_timeArr), 1)) - np.tile(x_timeArr[:, np.newaxis], (1, len(sampling_time)))
     # sampling_y= np.tile(sampling_y, (len(sampling_time), len(x_timeArr)))
@@ -153,3 +148,10 @@ def Clean_intialize():
     Functions.amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Functions.Current_amplitude=np.zeros(1000)
 
+def sinc_interp(factor):
+    samp_time,samp_amp=sampling(factor)
+    time_matrix= np.resize(x_Time,(len(samp_time),len(x_Time)))
+    k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0])
+    resulted_matrix = samp_amp* np.sinc(k)
+    reconstucted_seg= np.sum(resulted_matrix, axis=1)
+    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)])
