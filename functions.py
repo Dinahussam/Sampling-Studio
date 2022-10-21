@@ -22,7 +22,7 @@ class Functions:
     amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Current_amplitude=np.zeros(1000)
 
-x_Time = np.arange(0, 2, 0.0005).tolist()  # Time Axis Array
+x_Time = np.arange(0, 2, 0.001).tolist()  # Time Axis Array
 
 def SHOW_SIN(magnitude, phase, frequency):  # Add new sin signal
 
