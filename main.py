@@ -29,7 +29,12 @@ samp_fig= px.density_heatmap(
 res_fig= px.density_heatmap(
          data_frame=[{}])
 
+
+
+
 res_fig=functions.SHOW_RES()
+
+
 #sidebar components
 with st.sidebar:
     # st.title('Generate, reconstruct and sample your signal')
@@ -40,6 +45,11 @@ with st.sidebar:
         phase_value     =st.number_input('phase shift', min_value= 0,max_value=360,value=0, step=5)
         if st.button('ADD signal'):
             res_fig=functions.ADD_SIGNAL(amplitude_value,phase_value,frq_value)
+        uploaded_file =st.file_uploader('upload the signal file',['csv'] , help='upload your signal file' )
+        # if st.button('ADD signal'):
+        #     res_fig=functions.ADD_SIGNAL(amplitude_value,phase_value,frq_value)
+
+
     with tab1:
         if(len(functions.Functions.ADDED_SIGNALS)):
             todelete_list=[]
@@ -61,7 +71,10 @@ with st.sidebar:
         res_fig=functions.SHOW_NOISE(snr_value)     
         if st.button('ADD noise'):
             res_fig=functions.ADD_NOISE(snr_value)
-    # with tab3: 
+    with tab3: 
+        file_name=st.text_input('Write file name to be saved')
+        if st.button('Save the current signal'):
+            functions.save_signal(file_name)       
     #     if(len(functions.Functions.ADDED_FREQUENCES)>0):
     #         maxFreq= max(functions.Functions.ADDED_FREQUENCES)
     #         st.title(f'max freq= {maxFreq}') 
@@ -72,7 +85,12 @@ with st.sidebar:
     #         st.title("Construct your signal you want to sample first")
 
 
-TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
+
+if(uploaded_file):
+    df = pd.read_csv(uploaded_file)
+    TOADD_fig= go.Figure([go.Scatter(x=df['time'], y=df['amp'],)])
+else:
+    TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
 
 
 #STREAMLIT COLUMNS AND ROWS 

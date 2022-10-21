@@ -6,15 +6,16 @@ import plotly.graph_objects as go
 import streamlit as st  # 🎈 data web app development
 from pandas import *
 from signal import signal
-import numpy as np
 import math
 import matplotlib.pyplot as plt
+import pandas as pd  
+  
 
 
 class Functions:
     #number of signals added
     numberSignalsAdded=-1
-    #lists of added signals
+    #lists of added features of the signals
     ADDED_FREQUENCES=[]
     ADDED_AMPLITUDES=[]
     ADDED_PHASES=[]
@@ -22,7 +23,18 @@ class Functions:
     amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Current_amplitude=np.zeros(1000)
 
-x_Time = np.arange(0, 2, 0.0005).tolist()  # Time Axis Array
+
+x_Time = np.arange(0, 0.5, 0.0005).tolist()  # Time Axis Array for all of the graphs
+
+def save_signal(file_name):
+    file_name=file_name+'.csv'
+    print(file_name)
+    print(len(x_Time))  
+    print(len(Functions.Current_amplitude))
+    dict = {'time': x_Time, 'amp': Functions.Current_amplitude}    
+    df = pd.DataFrame(dict) 
+    # saving the dataframe 
+    df.to_csv( file_name) 
 
 def SHOW_SIN(magnitude, phase, frequency):  # Add new sin signal
 
