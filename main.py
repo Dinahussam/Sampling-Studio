@@ -52,25 +52,20 @@ with st.sidebar:
                         functions.DELETE_SIGNAL(todeleteSigindex)
         else:
             st.title("You have no added signals to delete")
-        # todelete_list=st.multiselect("choose the signal you want to delete",options=functions.Functions.ADDED_FREQUENCES,key='disabled' ,default=None)
-        # print(todelete_list)
-        # if st.button(' DELETE signal'):
-        #     for todelete_sig in todelete_list:
-        #         res_fig=functions.DELETE_SIGNAL(todelete_sig)
     with tab2:
         snr_value =st.slider('SNR ratio',0 , 10000,10000)
         res_fig=functions.SHOW_NOISE(snr_value)     
         if st.button('ADD noise'):
             res_fig=functions.ADD_NOISE(snr_value)
-    # with tab3: 
-    #     if(len(functions.Functions.ADDED_FREQUENCES)>0):
-    #         maxFreq= max(functions.Functions.ADDED_FREQUENCES)
-    #         st.title(f'max freq= {maxFreq}') 
-    #         st.write('the sampling freq = sampling factor*max feq')
-    #         samp_factor= st.slider('sampling factor', 0.0 , 20.0 , 2.0, 0.5)
-    #         samp_fig=functions.sinc_interp(samp_factor)
-    #     else:
-    #         st.title("Construct your signal you want to sample first")
+    with tab3: 
+        if(len(functions.Functions.ADDED_FREQUENCES)>0):
+            maxFreq= max(functions.Functions.ADDED_FREQUENCES)
+            st.title(f'max freq= {maxFreq}') 
+            st.write('the sampling freq = sampling factor*max feq')
+            samp_factor= st.slider('sampling factor', 1 , 20, 2, 1)
+            samp_fig=functions.sinc_interp(samp_factor)
+        else:
+            st.title("Construct your signal you want to sample first")
 
 
 TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
