@@ -46,8 +46,12 @@ with st.sidebar:
         if st.button('ADD signal'):
             res_fig=functions.ADD_SIGNAL(amplitude_value,phase_value,frq_value)
         uploaded_file =st.file_uploader('upload the signal file',['csv'] , help='upload your signal file' )
-        # if st.button('ADD signal'):
-        #     res_fig=functions.ADD_SIGNAL(amplitude_value,phase_value,frq_value)
+        if(uploaded_file):
+            df = pd.read_csv(uploaded_file)
+            if st.button('Upload to existing'):
+                res_fig=functions.Uploaded_signal(0,df['amp'])
+            if st.button('Clear then upload'):
+                res_fig=functions.Uploaded_signal(1,df['amp'])
 
 
     with tab1:
@@ -86,11 +90,11 @@ with st.sidebar:
 
 
 
-if(uploaded_file):
-    df = pd.read_csv(uploaded_file)
-    TOADD_fig= go.Figure([go.Scatter(x=df['time'], y=df['amp'],)])
-else:
-    TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
+# if(uploaded_file):
+#     df = pd.read_csv(uploaded_file)
+#     TOADD_fig= go.Figure([go.Scatter(x=df['time'], y=df['amp'],)])
+# else:
+TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
 
 
 #STREAMLIT COLUMNS AND ROWS 
