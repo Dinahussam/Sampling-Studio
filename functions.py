@@ -174,7 +174,7 @@ def sinc_interp(samp_freq):
     x_f, y_f = toFreqDomain(reconstucted_seg)
     return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)]) , go.Figure([go.Scatter(x=x_f, y=y_f)]) 
 
-def Uploaded_signal(Clean_flag,uploadedSigAmp):
+#def Uploaded_signal(Clean_flag,uploadedSigAmp):
 
 
 
