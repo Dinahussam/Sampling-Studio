@@ -44,8 +44,9 @@ res_fig= functions.updateFigLayout(res_fig)
 #sidebar components
 with st.sidebar:
     # st.title('Generate, reconstruct and sample your signal')
-    tab0,tab1, tab2, tab3 = st.tabs(["Generate","Delete", "SNR" , "Sample"])
-    with tab0:
+    tab_gen,tab_snr, tab_del, tab_save, tab_samp = st.tabs(["Generate", "SNR" ,"Delete","Save" ,"Sample"])
+
+    with tab_gen:
         frq_value =st.number_input('signal frequancy', min_value= 0.01,value=1.0, step=1.0)
         amplitude_value =st.number_input('signal amplitude', min_value= 0.01,value=1.0, step=1.0)
         phase_value     =st.number_input('phase shift', min_value= 0,max_value=360,value=0, step=5)
@@ -61,8 +62,16 @@ with st.sidebar:
             if st.button('Clear then upload'):
                 res_fig=functions.Uploaded_signal(1,df['amp'])
 
+    with tab_snr:
+        snr_value =st.slider('SNR ratio',0 , 10000,10000)
+        res_fig=functions.SHOW_NOISE(snr_value)     
+        res_fig= functions.updateFigLayout(res_fig)
 
-    with tab1:
+        if st.button('ADD noise'):
+            res_fig=functions.ADD_NOISE(snr_value)
+            res_fig= functions.updateFigLayout(res_fig)
+            
+    with tab_del:
         if(len(functions.Functions.ADDED_SIGNALS)):
             todelete_list=[]
             for signal in range(len(functions.Functions.ADDED_SIGNALS)):
@@ -74,20 +83,13 @@ with st.sidebar:
                         functions.DELETE_SIGNAL(todeleteSigindex)
         else:
             st.title("You have no added signals to delete")
-    with tab2:
-        snr_value =st.slider('SNR ratio',0 , 10000,10000)
-        res_fig=functions.SHOW_NOISE(snr_value)     
-        res_fig= functions.updateFigLayout(res_fig)
 
-        if st.button('ADD noise'):
-            res_fig=functions.ADD_NOISE(snr_value)
-            res_fig= functions.updateFigLayout(res_fig)
-            
-    with tab3: 
-        file_name=st.text_input('Write file name to be saved')
-        if st.button('Save the current signal'):
-            functions.save_signal(file_name)       
-    #     if(len(functions.Functions.ADDED_FREQUENCES)>0):
+    
+    # with tab_save: 
+    #     file_name=st.text_input('Write file name to be saved')
+    #     if st.button('Save the current constructed signal'): 
+    #         functions.save_signal(file_name)       
+    # #     if(len(functions.Functions.ADDED_FREQUENCES)>0):
     #         maxFreq= max(functions.Functions.ADDED_FREQUENCES)
     #         st.title(f'max freq= {maxFreq}') 
     #         st.write('the sampling freq = sampling factor*max feq')
@@ -95,23 +97,27 @@ with st.sidebar:
     #         samp_fig=functions.sinc_interp(samp_factor)
     #     else:
     #         st.title("Construct your signal you want to sample first")
-        if(len(functions.Functions.ADDED_FREQUENCES)>0):
-            maxFreq= max(functions.Functions.ADDED_FREQUENCES)
-            st.title(f'max freq= {maxFreq}') 
-            st.write('the sampling freq = sampling factor*max feq')
-            samp_factor= st.slider('sampling factor', 1 , 20, 2, 1)
-            samp_fig, sampfreq_fig =functions.sinc_interp(samp_factor)
-            samp_fig= functions.updateFigLayout(samp_fig)
-            sampfreq_fig= functions.updateFigLayout(sampfreq_fig)
-        else:
-            st.title("Construct your signal you want to sample first")
-
+        
 
 
 # if(uploaded_file):
 #     df = pd.read_csv(uploaded_file)
 #     TOADD_fig= go.Figure([go.Scatter(x=df['time'], y=df['amp'],)])
 # else:
+    with tab_samp:
+        if(len(functions.Functions.ADDED_FREQUENCES)>0):
+            maxFreq= max(functions.Functions.ADDED_FREQUENCES)
+            st.title(f'max freq= {maxFreq}') 
+            st.write('the sampling freq = sampling factor*max feq')
+            samp_freq= st.slider('sampling freq', min_value=  1.000001 , value= 1.000001, max_value=10*maxFreq)
+            st.write(f'Your sampling factor = {samp_freq/maxFreq}')
+            samp_fig, sampfreq_fig =functions.sinc_interp(samp_freq)
+            samp_fig= functions.updateFigLayout(samp_fig)
+            sampfreq_fig= functions.updateFigLayout(sampfreq_fig)
+        else:
+            st.title("Construct your signal you want to sample first")
+        
+    
 TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
 TOADD_fig= functions.updateFigLayout(TOADD_fig)
 

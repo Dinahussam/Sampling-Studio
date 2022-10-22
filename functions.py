@@ -25,8 +25,9 @@ class Functions:
     amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Current_amplitude=np.zeros(1000)
 
-
-x_Time = np.arange(0, 2, 2/1000).tolist()  # Time Axis Array for all of the graphs
+Tw=1
+N=1000
+x_Time = np.linspace(0, Tw, N).tolist()  # Time Axis Array for all of the graphs
 
 def save_signal(file_name):
     file_name=file_name+'.csv'
@@ -125,22 +126,33 @@ def updateFigLayout(fig):
     return fig
 
 def toFreqDomain(yt):
-    y_f = np.fft.fft(yt)
-    x_f = np.linspace(0.0, 2/(2.0*(2/1000)), 1000//2).tolist()
-    return y_f, x_f  
+    fs= N/Tw
+    fstep= fs/N
+    f= np.linspace(0, (N-1)*fstep, N)
+    yf_mag= np.abs(np.fft.fft(yt)) / N
+    # f_plot= f[0: int(N/2+1) ]
+    # y_f= 2 * yf_mag[0: int(N/2+1)]
+    # y_f[0]= y_f[0]/2   #dc component does't need to be multiplied by 2
+    return f , yf_mag
 
-def sampling(factor):
-    samp_frq=(factor)* max(Functions.ADDED_FREQUENCES)
+def sampling(samp_frq):
+    # samp_frq=(factor)* max(Functions.ADDED_FREQUENCES)
     time_range=math.ceil(x_Time[-1]-x_Time[0])
     samp_rate=int((len(x_Time)/time_range)/samp_frq)
     samp_time=x_Time[::samp_rate]
     samp_amp= Functions.Current_amplitude[::samp_rate]
     return samp_time,samp_amp
 
-    # sincM = np.tile(sampling_time, (len(x_timeArr), 1)) - np.tile(x_timeArr[:, np.newaxis], (1, len(sampling_time)))
-    # sampling_y= np.tile(sampling_y, (len(sampling_time), len(x_timeArr)))
-    # newy = np.dot(sampling_y, np.sinc(sincM/T))
-    # return go.Figure([go.Scatter(x=x_timeArr, y=newy)])
+
+def sinc_interp(samp_freq):
+    samp_time,samp_amp=sampling(samp_freq)
+    time_matrix= np.resize(x_Time,(len(samp_time),len(x_Time)))
+    k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0])
+    resulted_matrix = samp_amp* np.sinc(k)
+    reconstucted_seg= np.sum(resulted_matrix, axis=1)
+    x_f, y_f = toFreqDomain(reconstucted_seg)
+    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)]) , go.Figure([go.Scatter(x=x_f, y=y_f)]) 
+
 def Uploaded_signal(Clean_flag,uploadedSigAmp):
 
     if Clean_flag==1:
@@ -162,11 +174,3 @@ def Clean_intialize():
     Functions.amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Functions.Current_amplitude=np.zeros(1000)
 
-def sinc_interp(factor):
-    samp_time,samp_amp=sampling(factor)
-    time_matrix= np.resize(x_Time,(len(samp_time),len(x_Time)))
-    k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0])
-    resulted_matrix = samp_amp* np.sinc(k)
-    reconstucted_seg= np.sum(resulted_matrix, axis=1)
-    y_f,x_f = toFreqDomain(reconstucted_seg)
-    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)]) , go.Figure([go.Scatter(x=x_f, y=y_f)]) 
