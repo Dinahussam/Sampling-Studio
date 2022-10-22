@@ -70,6 +70,8 @@ with st.sidebar:
         if st.button('ADD noise'):
             res_fig=functions.ADD_NOISE(snr_value)
             res_fig= functions.updateFigLayout(res_fig)
+            st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+#             st.balloons()
             
     with tab_del:
         if(len(functions.Functions.ADDED_SIGNALS)):
