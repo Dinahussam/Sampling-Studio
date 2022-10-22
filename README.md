@@ -6,15 +6,9 @@ our web application about signal sampling or nyequist theroem which defines the 
 ## Table of contents
 
 * [Features](#features)
-* [Download](#download)
 * [Usage](#usage)
-* [Development](#development)
 * [Documentation](#documentation)
-* [API](#api)
 * [Testing](#testing)
 
-
-
-
 ## Features:
-On our web, we can generate, add, delete, save, upload, recover, show noise, sample, and show sampling points signals
+On our web, we can generate, add, delete, save, upload, recover, show noise, sample, and show sampling points signals.
