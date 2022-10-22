@@ -35,6 +35,9 @@ samp_fig= functions.updateFigLayout(samp_fig)
 sampfreq_fig= functions.updateFigLayout(sampfreq_fig)
 res_fig= functions.updateFigLayout(res_fig)
 
+
+
+
 res_fig=functions.SHOW_RES()
 res_fig= functions.updateFigLayout(res_fig)
 
@@ -50,6 +53,15 @@ with st.sidebar:
             res_fig=functions.ADD_SIGNAL(amplitude_value,phase_value,frq_value)
             res_fig= functions.updateFigLayout(res_fig)
             
+        uploaded_file =st.file_uploader('upload the signal file',['csv'] , help='upload your signal file' )
+        if(uploaded_file):
+            df = pd.read_csv(uploaded_file)
+            if st.button('Upload to existing'):
+                res_fig=functions.Uploaded_signal(0,df['amp'])
+            if st.button('Clear then upload'):
+                res_fig=functions.Uploaded_signal(1,df['amp'])
+
+
     with tab1:
         if(len(functions.Functions.ADDED_SIGNALS)):
             todelete_list=[]
@@ -72,6 +84,17 @@ with st.sidebar:
             res_fig= functions.updateFigLayout(res_fig)
             
     with tab3: 
+        file_name=st.text_input('Write file name to be saved')
+        if st.button('Save the current signal'):
+            functions.save_signal(file_name)       
+    #     if(len(functions.Functions.ADDED_FREQUENCES)>0):
+    #         maxFreq= max(functions.Functions.ADDED_FREQUENCES)
+    #         st.title(f'max freq= {maxFreq}') 
+    #         st.write('the sampling freq = sampling factor*max feq')
+    #         samp_factor= st.slider('sampling factor', 0.0 , 20.0 , 2.0, 0.5)
+    #         samp_fig=functions.sinc_interp(samp_factor)
+    #     else:
+    #         st.title("Construct your signal you want to sample first")
         if(len(functions.Functions.ADDED_FREQUENCES)>0):
             maxFreq= max(functions.Functions.ADDED_FREQUENCES)
             st.title(f'max freq= {maxFreq}') 
@@ -84,6 +107,11 @@ with st.sidebar:
             st.title("Construct your signal you want to sample first")
 
 
+
+# if(uploaded_file):
+#     df = pd.read_csv(uploaded_file)
+#     TOADD_fig= go.Figure([go.Scatter(x=df['time'], y=df['amp'],)])
+# else:
 TOADD_fig=functions.SHOW_SIN(amplitude_value,phase_value ,frq_value )
 TOADD_fig= functions.updateFigLayout(TOADD_fig)
 

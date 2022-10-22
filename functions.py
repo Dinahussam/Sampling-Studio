@@ -8,15 +8,16 @@ import plotly.express as px
 import streamlit as st  # 🎈 data web app development
 from pandas import *
 from signal import signal
-import numpy as np
 import math
 import matplotlib.pyplot as plt
+import pandas as pd  
+  
 
 
 class Functions:
     #number of signals added
     numberSignalsAdded=-1
-    #lists of added signals
+    #lists of added features of the signals
     ADDED_FREQUENCES=[]
     ADDED_AMPLITUDES=[]
     ADDED_PHASES=[]
@@ -24,7 +25,18 @@ class Functions:
     amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
     Current_amplitude=np.zeros(1000)
 
-x_Time = np.arange(0, 2, 2/1000).tolist()  # Time Axis Array
+
+x_Time = np.arange(0, 2, 2/1000).tolist()  # Time Axis Array for all of the graphs
+
+def save_signal(file_name):
+    file_name=file_name+'.csv'
+    # print(file_name)
+    # print(len(x_Time))  
+    # print(len(Functions.Current_amplitude))
+    dict = {'time': x_Time, 'amp': Functions.Current_amplitude}    
+    df = pd.DataFrame(dict) 
+    # saving the dataframe 
+    df.to_csv( file_name) 
 
 def SHOW_SIN(magnitude, phase, frequency):  # Add new sin signal
 
@@ -48,28 +60,30 @@ def ADD_SIGNAL(added_magnitude, added_phase,added_frequency):
     Functions.ADDED_PHASES.append( added_phase)
     Functions.ADDED_SIGNALS.append(new_y_amplitude)
     Functions.Current_amplitude=np.add(Functions.Current_amplitude,new_y_amplitude)
-    print(Functions.ADDED_FREQUENCES)
-    # print(Functions.ADDED_SIGNALS)
-    print(Functions.numberSignalsAdded)
+    # print(Functions.ADDED_FREQUENCES)
+    # # print(Functions.ADDED_SIGNALS)
+    # print(Functions.numberSignalsAdded)
     
 
     return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
 
 def DELETE_SIGNAL(index_todelete): 
-    if(len(Functions.ADDED_SIGNALS)==0):
-        Functions.Current_amplitude=0
-    else:
-        Functions.Current_amplitude=np.subtract(Functions.Current_amplitude,Functions.ADDED_SIGNALS[index_todelete]  )
-    Functions.ADDED_FREQUENCES.pop(index_todelete)
-    Functions.ADDED_AMPLITUDES.pop(index_todelete)
-    Functions.ADDED_PHASES.pop(index_todelete)
-    Functions.ADDED_SIGNALS.pop(index_todelete)
 
-    Functions.numberSignalsAdded-=1
-    print(Functions.ADDED_FREQUENCES) 
-    # print(Functions.ADDED_SIGNALS)
-    print(Functions.numberSignalsAdded)    
-    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+    if(len(Functions.ADDED_FREQUENCES)==0):
+        Functions.Current_amplitude=np.zeros(1000)
+        print('here')
+        return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+    else:
+        print('here')
+        Functions.Current_amplitude=np.subtract(Functions.Current_amplitude,Functions.ADDED_SIGNALS[index_todelete]  )
+        Functions.ADDED_FREQUENCES.pop(index_todelete)
+        Functions.ADDED_AMPLITUDES.pop(index_todelete)
+        Functions.ADDED_PHASES.pop(index_todelete)
+        Functions.ADDED_SIGNALS.pop(index_todelete)
+        Functions.numberSignalsAdded-=1
+
+
+        return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
 
 def ADD_NOISE(snrRatio):
     power = Functions.Current_amplitude**2
@@ -122,6 +136,31 @@ def sampling(factor):
     samp_time=x_Time[::samp_rate]
     samp_amp= Functions.Current_amplitude[::samp_rate]
     return samp_time,samp_amp
+
+    # sincM = np.tile(sampling_time, (len(x_timeArr), 1)) - np.tile(x_timeArr[:, np.newaxis], (1, len(sampling_time)))
+    # sampling_y= np.tile(sampling_y, (len(sampling_time), len(x_timeArr)))
+    # newy = np.dot(sampling_y, np.sinc(sincM/T))
+    # return go.Figure([go.Scatter(x=x_timeArr, y=newy)])
+def Uploaded_signal(Clean_flag,uploadedSigAmp):
+
+    if Clean_flag==1:
+        Clean_intialize()
+
+    Functions.Current_amplitude=np.add(Functions.Current_amplitude,uploadedSigAmp)
+    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+    
+
+
+def Clean_intialize():
+    #number of signals added
+    Functions.numberSignalsAdded=-1
+    #lists of added features of the signals
+    Functions.ADDED_FREQUENCES=[]
+    Functions.ADDED_AMPLITUDES=[]
+    Functions.ADDED_PHASES=[]
+    Functions.ADDED_SIGNALS=[]
+    Functions.amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
+    Functions.Current_amplitude=np.zeros(1000)
 
 def sinc_interp(factor):
     samp_time,samp_amp=sampling(factor)
