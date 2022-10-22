@@ -58,9 +58,9 @@ with st.sidebar:
         if(uploaded_file):
             df = pd.read_csv(uploaded_file)
             if st.button('Upload to existing'):
-                res_fig=functions.Uploaded_signal(0,df['amp'])
+                res_fig=functions.Uploaded_signal(0,df['amp'],df['frequencies'],df['amplitudes'],df['phases'],df['numberOfSignals'])
             if st.button('Clear then upload'):
-                res_fig=functions.Uploaded_signal(1,df['amp'])
+                res_fig=functions.Uploaded_signal(1,df['amp'],df['frequencies'],df['amplitudes'],df['phases'],df['numberOfSignals'])
 
     with tab_snr:
         snr_value =st.slider('SNR ratio',0 , 10000,10000)
