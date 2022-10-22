@@ -19,7 +19,7 @@ st.set_page_config(
  
 # title
 st.title("Sampling studio")
-st.text("Change Your analog Signal into digital & See How the Sampling frequancy affect")
+st.write("our web application about signal sampling or nyequist theroem which defines the min sample rate for highest frequency, it is principle to reproduce pure waves which must be at least twice its frequency. it is show how add, delete, generate signal and show noise")
   
 #initiating df(dataframe) and empty fig
 TOADD_fig= px.density_heatmap(
