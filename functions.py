@@ -95,11 +95,25 @@ def SHOW_NOISE(snrRatio):
     noised_signal = Functions.Current_amplitude+noise
     return go.Figure([go.Scatter(x=x_Time, y=noised_signal)])
 
-def ysampling(tsampling):
-    sampling_y=[]
-    for point in tsampling:
-        sampling_y.append(np.interp(point, Functions.Current_amplitude,x_Time))
-    return(sampling_y)
+def updateFigLayout(fig):
+    fig.update_layout(
+        # autosize=False,
+        width=500,
+        height=500,
+        margin=dict(
+            l=50,
+            r=50,
+            b=100,
+            t=100,
+            pad=4
+        ),
+    )
+    return fig
+
+def toFreqDomain(yt):
+    y_f = np.fft.fft(yt)
+    x_f = np.linspace(0.0, 2/(2.0*(2/1000)), 1000//2).tolist()
+    return y_f, x_f  
 
 def sampling(factor):
     samp_frq=(factor)* max(Functions.ADDED_FREQUENCES)
@@ -115,4 +129,5 @@ def sinc_interp(factor):
     k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0])
     resulted_matrix = samp_amp* np.sinc(k)
     reconstucted_seg= np.sum(resulted_matrix, axis=1)
-    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)])
+    y_f,x_f = toFreqDomain(reconstucted_seg)
+    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)]) , go.Figure([go.Scatter(x=x_f, y=y_f)]) 
