@@ -19,6 +19,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Zoom in and out](#zoom_in_and_out)
 
 ### Generate_signal:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_Generation.png)
 
 
 ### Add_SNR:
@@ -26,7 +27,6 @@ our web application about signal sampling or nyequist theroem which defines the 
 ### Save_signal_as_CSV_file:
 
 ### Sampling_and_recover_signal:
-![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling.png)
 
 ### Save_signal_as_png_photo:
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
