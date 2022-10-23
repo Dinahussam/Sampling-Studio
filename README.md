@@ -50,6 +50,7 @@ That you can save the signal as png photo in your browser.
 
 ### Zoom_in_and_out:
 That you can zoom in and out in your signal.
+
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/zoom%20in.png)
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/after%20zoom%20in.png)
 
