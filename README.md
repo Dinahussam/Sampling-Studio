@@ -18,6 +18,28 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Save signal as png photo](#savesignalaspngphoto)
 * [Zoom in and out](#zoominandout)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Generate signal:
 
 
