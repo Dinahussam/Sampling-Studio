@@ -79,7 +79,6 @@ with st.sidebar:
         if st.button('Save the current resulted Signal'): 
             functions.save_signal(file_name) 
             st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
-            #  st.balloons()
       
    
     with tab_samp:

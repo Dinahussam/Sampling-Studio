@@ -49,7 +49,7 @@ def delete_signal(index_todelete):
         clean_all()
         return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
     else:
-        Functions.composedAmp=np.subtract(Functions.Current_amplitude,Functions.ADDED_SIGNALS[index_todelete] ) 
+        Functions.composedAmp=np.subtract(Functions.composedAmp,Functions.addedSignals[index_todelete] ) 
         Functions.addedAmps.pop(index_todelete)
         Functions.addedFreqs.pop(index_todelete)
         Functions.addedPhases.pop(index_todelete)
