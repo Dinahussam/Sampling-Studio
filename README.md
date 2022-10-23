@@ -29,7 +29,7 @@ That you can generate a signal by choosing the frequency, amplitude, and phase s
 
 
 ### Save_signal_as_CSV_file:
-that you can save the signal as png in your browser
+that you can save the signal as CSV in your browser
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_save.png)
 
@@ -39,6 +39,8 @@ that you can save the signal as png in your browser
 
 
 ### Save_signal_as_png_photo:
+that you can save the signal as png in your browser
+
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
 
 
