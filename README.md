@@ -30,6 +30,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 ### Save_signal_as_png_photo:
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
 
-### Zoom_in_and_out
+### Zoom_in_and_out:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/zoom%20in.png)
 
 On our web, we can generate, add, delete, save, upload, recover, show noise, sample, and show sampling points signals.
