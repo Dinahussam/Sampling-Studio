@@ -25,6 +25,8 @@ That you can generate a signal by choosing the frequency, amplitude, and phase s
 
 
 ### Add_SNR:
+that you can change SNR by a slider and showing how the noise changes the signal
+
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
 
 
@@ -35,6 +37,8 @@ that you can save the signal as CSV in your browser
 
 
 ### Sampling_and_recover_signal:
+that you can show max frequency and changing sample frequency, show over-sampling and aliasing conditions
+
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling.png)
 
 
