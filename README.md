@@ -1,5 +1,5 @@
 # Sampling Studio 
-![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling%20studio.png)
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/Sampling%20studio.png)
 ## Description:
 our web application about signal sampling or nyequist theroem which defines the min sample rate for highest frequency, it is principle to reproduce pure waves which must be at least twice its frequency. it is show how add, delete, generate signal and show noise.
 
@@ -10,13 +10,32 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Documentation](#documentation)
 * [Testing](#testing)
 
-## Features:
-* [Generate signal](#generatesignal)
-* [Add SNR](#add snr)
-* [Save signal as CSV file](#save signal as CSV file)
-* [Sampling and recover signal](#sampling and recover signal)
-* [Save signal as png photo](#save signal as png photo)
-* [Zoom in and out](#zoom in and out)
+## Features
+* [Generate signal](#generate_signal)
+* [Add_SNR](#add_snr)
+* [Save signal as CSV file](#save_signal_as_CSV_file)
+* [Sampling and recover signal](#sampling_and_recover_signal)
+* [Save signal as png photo](#save_signal_as_png_photo)
+* [Zoom in and out](#zoom_in_and_out)
 
+### Generate_signal:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_Generation.png)
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
+
+### Add_SNR:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
+
+
+### Save_signal_as_CSV_file:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_save.png)
+
+### Sampling_and_recover_signal:
+
+### Save_signal_as_png_photo:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
+
+### Zoom_in_and_out:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/zoom%20in.png)
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/after%20zoom%20in.png)
 
 On our web, we can generate, add, delete, save, upload, recover, show noise, sample, and show sampling points signals.
