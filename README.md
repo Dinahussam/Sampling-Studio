@@ -12,23 +12,23 @@ our web application about signal sampling or nyequist theroem which defines the 
 
 ## Features
 * [Generate signal](#generate_signal)
-* [Add_SNR](##addsnr)
-* [Save signal as CSV file](#savesignalasCSVfile)
-* [Sampling and recover signal](#samplingandrecoversignal)
-* [Save signal as png photo](#savesignalaspngphoto)
-* [Zoom in and out](#zoominandout)
+* [Add_SNR](#add_snr)
+* [Save signal as CSV file](#save_signal_as_CSV_file)
+* [Sampling and recover signal](#sampling_and_recover_signal)
+* [Save signal as png photo](#save_signal_as_png_photo)
+* [Zoom in and out](#zoom_in_and_out)
 
 ### Generate_signal:
 
 
-### Add SNR:
+### Add_SNR:
 
-### Save signal as CSV file:
+### Save_signal_as_CSV_file:
 
-### Sampling and recover signal:
+### Sampling_and_recover_signal:
 
-### Save signal as png photo
+### Save_signal_as_png_photo
 
-### Zoom in and out
+### Zoom_in_and_out
 
 On our web, we can generate, add, delete, save, upload, recover, show noise, sample, and show sampling points signals.
