@@ -27,7 +27,8 @@ our web application about signal sampling or nyequist theroem which defines the 
 
 ### Sampling_and_recover_signal:
 
-### Save_signal_as_png_photo
+### Save_signal_as_png_photo:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
 
 ### Zoom_in_and_out
 
