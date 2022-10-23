@@ -11,7 +11,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Testing](#testing)
 
 ## Features
-* [Generate signal](## generatesignal)
+* [Generate signal](#generatesignal)
 * [Add_SNR](##addsnr)
 * [Save signal as CSV file](#savesignalasCSVfile)
 * [Sampling and recover signal](#samplingandrecoversignal)
