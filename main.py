@@ -13,7 +13,7 @@ st.set_page_config(
  
 # title
 st.title("Sampling studio")
-st.text("Change Your analog Signals into digital & See How the Sampling frequancy affect")
+st.write("our web application about signal sampling or nyequist theroem which defines the min sample rate for highest frequency, it is principle to reproduce pure waves which must be at least twice its frequency. it is show how add, delete, generate signal and show noise")
   
 #initiating df(dataframe) and empty fig
 toadd_fig= px.density_heatmap(
@@ -66,18 +66,21 @@ with st.sidebar:
             todelete_list=[]
             for signal in range(len(functions.Functions.addedSignals)):
                 todelete_list.append(f"freq={functions.Functions.addedFreqs[signal]}, amp={functions.Functions.addedAmps[signal] }, phase={functions.Functions.addedPhases[signal]}",)
-            todelete_list=st.multiselect("choose the Signals you want to delete",options=todelete_list,key='disabled' ,default=None)
+            todelete_list=st.multiselect("choose the signal you want to delete",options=todelete_list,key='disabled' ,default=None)
             if st.button(' DELETE '):
                 for todeleteSigindex in range(len(todelete_list)):
                     if(todelete_list[todeleteSigindex]):
                         functions.delete_signal(todeleteSigindex)
         else:
-            st.title("You have no added Signals to delete")
-            
+            st.title("You have no added signals to delete")
+                    
     with tab_save: 
         file_name=st.text_input('Write file name to be saved')
         if st.button('Save the current resulted Signal'): 
-            functions.save_signal(file_name)       
+            functions.save_signal(file_name) 
+            st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+            #  st.balloons()
+      
    
     with tab_samp:
         if(len(functions.Functions.addedFreqs)>0):

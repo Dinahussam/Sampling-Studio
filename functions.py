@@ -49,16 +49,13 @@ def delete_signal(index_todelete):
         clean_all()
         return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
     else:
-        print(type(Functions.addedSignals[index_todelete]))
-
-        Functions.composedAmp=np.subtract(Functions.composedAmp,Functions.addedSignals[index_todelete] ) 
-        Functions.addedFreqs.pop(index_todelete)
+        Functions.composedAmp=np.subtract(Functions.Current_amplitude,Functions.ADDED_SIGNALS[index_todelete] ) 
         Functions.addedAmps.pop(index_todelete)
+        Functions.addedFreqs.pop(index_todelete)
         Functions.addedPhases.pop(index_todelete)
         Functions.addedSignals.pop(index_todelete)
         Functions.numberSignalsAdded-=1
-
-
+        
         return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
 def upload_signal(Clean_flag,frequinces,amplitudes,phases,numberOfSignals):
@@ -125,7 +122,7 @@ def clean_all():
     Functions.addedFreqs=[]
     Functions.addedAmps=[]
     Functions.addedPhases=[]
-    Functions.addedFunctionss=[]
+    Functions.addedSignals=[]
     Functions.composedAmp=np.zeros(1000)
     Functions.composedAmp=np.zeros(1000)
 
