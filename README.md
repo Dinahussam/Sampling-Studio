@@ -6,9 +6,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 ## Table of contents
 
 * [Features](#features)
-* [Usage](#usage)
 * [Documentation](#documentation)
-* [Testing](#testing)
 
 ## Features
 * [Generate signal](#generate_signal)
@@ -54,3 +52,5 @@ That you can zoom in and out in your signal.
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/zoom%20in.png)
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/after%20zoom%20in.png)
 
+
+## Documentation:
