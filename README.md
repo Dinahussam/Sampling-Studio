@@ -20,7 +20,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 
 ### Generate_signal:
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_Generation.png)
-
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
 
 ### Add_SNR:
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
