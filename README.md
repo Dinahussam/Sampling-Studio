@@ -19,36 +19,37 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Zoom in and out](#zoom_in_and_out)
 
 ### Generate_signal:
-That you can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it.
+That you can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it or upload it from your browser and also you can add several signals to each other to generate a new signal from them.
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_Generation.png)
 
 
 ### Add_SNR:
-that you can change SNR by a slider and showing how the noise changes the signal
+That you can add SNR and showing how the noise changes the signal.
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
 
 
 ### Save_signal_as_CSV_file:
-that you can save the signal as CSV in your browser
+That you can save your signal as CSV file in your browser and you can complete your process in your signal when you upload it.
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_save.png)
 
 
 ### Sampling_and_recover_signal:
-that you can show max frequency and changing sample frequency, show over-sampling and aliasing conditions
+That you can show max frequency and changing sample frequency, show over-sampling and aliasing conditions.
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling.png)
 
 
 ### Save_signal_as_png_photo:
-that you can save the signal as png in your browser
+That you can save the signal as png photo in your browser.
 
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/download%20as%20png.png)
 
 
 ### Zoom_in_and_out:
+That you can zoom in and out in your signal.
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/zoom%20in.png)
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/after%20zoom%20in.png)
 
