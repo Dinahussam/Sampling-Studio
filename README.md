@@ -27,6 +27,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 
 
 ### Save_signal_as_CSV_file:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_save.png)
 
 ### Sampling_and_recover_signal:
 
