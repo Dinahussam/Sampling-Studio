@@ -19,6 +19,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Zoom in and out](#zoom_in_and_out)
 
 ### Generate_signal:
+That you can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it.
 ![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_Generation.png)
 
 
