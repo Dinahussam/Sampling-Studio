@@ -1,137 +1,109 @@
-import re
-from telnetlib import X3PAD
-from tkinter import Y
-import numpy as np  # np mean, np random
-import pandas as pd  # read csv, df manipulation
+import math
+import numpy as np  
+import pandas as pd  
 import plotly.graph_objects as go
 import plotly.express as px
-import streamlit as st  # 🎈 data web app development
-from pandas import *
-from signal import signal
-import math
-import matplotlib.pyplot as plt
-import pandas as pd  
-  
 
-
+# constructing the Signals
 class Functions:
     #number of signals added
     numberSignalsAdded=-1
-    #lists of added features of the signals
-    ADDED_FREQUENCES=[]
-    ADDED_AMPLITUDES=[]
-    ADDED_PHASES=[]
-    ADDED_SIGNALS=[]
-    amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
-    Current_amplitude=np.zeros(1000)
+    #lists of added features of the Signals
+    addedFreqs=[]
+    addedAmps=[]
+    addedPhases=[]
+    addedSignals=[]
+    composedAmp=np.zeros(1000)
 
-Tw=1
-N=1000
-x_Time = np.linspace(0, Tw, N).tolist()  # Time Axis Array for all of the graphs
+tmax=1
+n=1000
+mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
 
-def SHOW_SIN(magnitude, phase, frequency):  # Add new sin signal
-
-    Y = np.zeros(1000)  # Array for saving sin signals values
+def show_sin (magnitude, phase, frequency):  # Add new sin Signal
+    Y = np.zeros(1000)  # Array for saving sin Signals values
     for i in range(1000): 
-        Y[i] = (magnitude * (math.sin((2 * np.pi * frequency * x_Time[i]) + phase)))
-    return go.Figure([go.Scatter(x=x_Time, y=Y)])
+        Y[i] = (magnitude * (math.sin((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
+    return go.Figure([go.Scatter(x=mainTimeAxis, y=Y)])
 
-def SHOW_RES():  # Add new sin signal
-    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+def show_composed():  # Add new sin Signal
+    return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
-def ADD_SIGNAL(added_magnitude, added_phase,added_frequency):
-    new_y_amplitude = np.zeros(1000)  # Array for saving sin signals values
+def add_signal(added_magnitude, added_phase,added_frequency):
+    new_y_amplitude = np.zeros(1000)  # Array for saving sin Signals values
     for i in range(1000): 
-         new_y_amplitude[i] = (added_magnitude * (math.sin((2 * np.pi * added_frequency * x_Time[i]) + added_phase))) 
+        new_y_amplitude[i] = (added_magnitude * (math.sin((2 * np.pi * added_frequency * mainTimeAxis[i]) + added_phase))) 
     
     #updating lists
     Functions.numberSignalsAdded+=1
-    Functions.ADDED_FREQUENCES.append(added_frequency)
-    Functions.ADDED_AMPLITUDES.append(added_magnitude)
-    Functions.ADDED_PHASES.append( added_phase)
-    Functions.ADDED_SIGNALS.append(new_y_amplitude)
-    Functions.Current_amplitude=np.add(Functions.Current_amplitude,new_y_amplitude)
-    # print(Functions.ADDED_FREQUENCES)
-    # # print(Functions.ADDED_SIGNALS)
-    # print(Functions.numberSignalsAdded)
-    
+    Functions.addedFreqs.append(added_frequency)
+    Functions.addedAmps.append(added_magnitude)
+    Functions.addedPhases.append( added_phase)
+    Functions.addedSignals.append(new_y_amplitude)
+    Functions.composedAmp=np.add(Functions.composedAmp,new_y_amplitude)
 
-    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
-# function name:DELETE_SIGNAL
-# input: a flag that indecates if it is the last signal to be deleted or not 
-# output: it returns the figure after deleteing the signal .
-# describtion: it clear the resulted signal if it is the last signal ,
-#              if not it will subtract it from current resu;ted signal
-def DELETE_SIGNAL(index_todelete): 
+    return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
+
+def delete_signal(index_todelete): 
 
     if(Functions.numberSignalsAdded==0):
-        Clean_intialize()
-        return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+        clean_all()
+        return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
     else:
-        print(type(Functions.ADDED_SIGNALS[index_todelete]))
+        print(type(Functions.addedSignals[index_todelete]))
 
-        Functions.Current_amplitude=np.subtract(Functions.Current_amplitude,Functions.ADDED_SIGNALS[index_todelete] ) 
-        Functions.ADDED_FREQUENCES.pop(index_todelete)
-        Functions.ADDED_AMPLITUDES.pop(index_todelete)
-        Functions.ADDED_PHASES.pop(index_todelete)
-        Functions.ADDED_SIGNALS.pop(index_todelete)
+        Functions.composedAmp=np.subtract(Functions.composedAmp,Functions.addedSignals[index_todelete] ) 
+        Functions.addedFreqs.pop(index_todelete)
+        Functions.addedAmps.pop(index_todelete)
+        Functions.addedPhases.pop(index_todelete)
+        Functions.addedSignals.pop(index_todelete)
         Functions.numberSignalsAdded-=1
 
 
-        return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+        return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
-def Uploaded_signal(Clean_flag,amp,frequinces,amplitudes,phases,numberOfSignals):
-    # def Uploaded_signal(Clean_flag,amp):
+def upload_signal(Clean_flag,frequinces,amplitudes,phases,numberOfSignals):
+    # def upload_signal(Clean_flag,amp):
     if Clean_flag==1:
-        Clean_intialize()
+        clean_all()
     #updating lists
     num=int(numberOfSignals[0])
     
     for i in range(0,num):
-        ADD_SIGNAL(amplitudes[i], phases[i],frequinces[i])
-    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+        add_signal(amplitudes[i], phases[i],frequinces[i])
+    return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
 def save_signal(file_name):
-
-    graph_axises = pd.DataFrame({'time':x_Time,'amp':Functions.Current_amplitude})
+    graph_axises = pd.DataFrame({'time':mainTimeAxis,'amp':Functions.composedAmp})
     graph_detials = pd.DataFrame({ 
-        'frequencies':Functions.ADDED_FREQUENCES,
-        'amplitudes':Functions.ADDED_AMPLITUDES,
-        'phases':Functions.ADDED_PHASES,
+        'frequencies':Functions.addedFreqs,
+        'amplitudes':Functions.addedAmps,
+        'phases':Functions.addedPhases,
         'numberOfSignals':Functions.numberSignalsAdded+1
         })
-
     graph = pd.concat([graph_axises, graph_detials], axis=1) 
     file_name=file_name+'.csv'   
     df = pd.DataFrame(graph) 
     # saving the dataframe 
     df.to_csv( file_name) 
     
-def ADD_NOISE(snrRatio):
-    power = Functions.Current_amplitude**2
+def add_noise(addFlag, snrRatio):
+    power = Functions.composedAmp**2
     snr_db = 10 * np.log10(snrRatio)
     signal_avg_power=np.mean(power)
     signal_avg_power_db=10 * np.log10(signal_avg_power)
     noise_db=signal_avg_power_db - snr_db
     noise_watts=10 ** (noise_db/10)
     mean_noise=0
-    noise=np.random.normal(mean_noise, np.sqrt(noise_watts),len(Functions.Current_amplitude))
-    Functions.Current_amplitude = Functions.Current_amplitude+noise
-    return go.Figure([go.Scatter(x=x_Time, y=Functions.Current_amplitude)])
+    noise=np.random.normal(mean_noise, np.sqrt(noise_watts),len(Functions.composedAmp))
+    if(addFlag):
+        Functions.composedAmp = Functions.composedAmp+noise
+        fig=go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
+    else:
+        noised_signal = Functions.composedAmp+noise
+        fig =go.Figure([go.Scatter(x=mainTimeAxis, y=noised_signal)])
+    return fig
 
-def SHOW_NOISE(snrRatio):
-    power = Functions.Current_amplitude**2
-    snr_db = 10 * np.log10(snrRatio)
-    signal_avg_power=np.mean(power)
-    signal_avg_power_db=10 * np.log10(signal_avg_power)
-    noise_db=signal_avg_power_db - snr_db
-    noise_watts=10 ** (noise_db/10)
-    mean_noise=0
-    noise=np.random.normal(mean_noise, np.sqrt(noise_watts),len(Functions.Current_amplitude))
-    noised_signal = Functions.Current_amplitude+noise
-    return go.Figure([go.Scatter(x=x_Time, y=noised_signal)])
-
-def updateFigLayout(fig):
+def layout_fig(fig):
     fig.update_layout(
         # autosize=False,
         width=500,
@@ -146,47 +118,44 @@ def updateFigLayout(fig):
     )
     return fig
 
-def toFreqDomain(yt):
-    fs= N/Tw
-    fstep= fs/N
-    f= np.linspace(0, (N-1)*fstep, N)
-    yf_mag= np.abs(np.fft.fft(yt)) / N
-    # f_plot= f[0: int(N/2+1) ]
-    # y_f= 2 * yf_mag[0: int(N/2+1)]
-    # y_f[0]= y_f[0]/2   #dc component does't need to be multiplied by 2
-    return f , yf_mag
+def clean_all():
+    #number of Signals added
+    Functions.numberSignalsAdded=-1
+    #lists of added features of the Signals
+    Functions.addedFreqs=[]
+    Functions.addedAmps=[]
+    Functions.addedPhases=[]
+    Functions.addedFunctionss=[]
+    Functions.composedAmp=np.zeros(1000)
+    Functions.composedAmp=np.zeros(1000)
+
+# sampling , interpolation & converting to Freq domain 
+def tofrqDomain_converter(yt):
+    fs= n/tmax  
+    fstep= fs/n
+    f= np.linspace(0, (n-1)*fstep , n)
+    yf_mag= np.abs(np.fft.fft(yt)) / n
+    f_plot= f[0: int(n/2+1) ]
+    y_f= 2 * yf_mag[0: int(n/2+1)]
+    y_f[0]= y_f[0]/2   #dc component does't need to be multiplied by 2
+    return f_plot , y_f
 
 def sampling(samp_frq):
-    # samp_frq=(factor)* max(Functions.ADDED_FREQUENCES)
-    time_range=math.ceil(x_Time[-1]-x_Time[0])
-    samp_rate=int((len(x_Time)/time_range)/samp_frq)
-    samp_time=x_Time[::samp_rate]
-    samp_amp= Functions.Current_amplitude[::samp_rate]
+    # samp_frq=(factor)* max(Functions.addedFreqs)
+    time_range=math.ceil(mainTimeAxis[-1]-mainTimeAxis[0])
+    samp_rate=int((len(mainTimeAxis)/time_range)/samp_frq)
+    samp_time=mainTimeAxis[::samp_rate]
+    samp_amp= Functions.composedAmp[::samp_rate]
     return samp_time,samp_amp
-
 
 def sinc_interp(samp_freq):
     samp_time,samp_amp=sampling(samp_freq)
-    time_matrix= np.resize(x_Time,(len(samp_time),len(x_Time)))
-    k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0])
+    time_matrix= np.resize(mainTimeAxis,(len(samp_time),len(mainTimeAxis))) # to be able to sabstract nT from t
+    k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0]) 
     resulted_matrix = samp_amp* np.sinc(k)
     reconstucted_seg= np.sum(resulted_matrix, axis=1)
-    x_f, y_f = toFreqDomain(reconstucted_seg)
-    return  go.Figure([go.Scatter(x=x_Time, y=reconstucted_seg)]) , go.Figure([go.Scatter(x=x_f, y=y_f)]) 
-
-def Uploaded_signal(Clean_flag,uploadedSigAmp):
-
-
-
-def Clean_intialize():
-    #number of signals added
-    Functions.numberSignalsAdded=-1
-    #lists of added features of the signals
-    Functions.ADDED_FREQUENCES=[]
-    Functions.ADDED_AMPLITUDES=[]
-    Functions.ADDED_PHASES=[]
-    Functions.ADDED_SIGNALS=[]
-    Functions.amplitude_SUM = np.zeros(1000)  # Sum of AMPLITUDE of signals
-    Functions.Current_amplitude=np.zeros(1000)
-    Functions.Current_amplitude=np.zeros(1000)
+    reconstructed_fig = px.line(x=mainTimeAxis , y= reconstucted_seg)
+    samplingPoints_fig = px.scatter(x=samp_time, y=samp_amp ,color_discrete_sequence=["red"],)
+    x_f, y_f = tofrqDomain_converter(reconstucted_seg)
+    return go.Figure(data = reconstructed_fig.data + samplingPoints_fig.data), go.Figure([go.Scatter(x=x_f, y=y_f)])
 
