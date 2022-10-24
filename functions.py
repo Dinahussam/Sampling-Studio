@@ -1,4 +1,5 @@
 import math
+from turtle import colormode
 import numpy as np  
 import pandas as pd  
 import plotly.graph_objects as go
@@ -14,8 +15,9 @@ class Functions:
     addedPhases=[]
     addedSignals=[]
     composedAmp=np.zeros(1000)
+    options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
 
-tmax=1
+tmax=2
 n=1000
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
 
@@ -103,8 +105,8 @@ def add_noise(addFlag, snrRatio):
 def layout_fig(fig):
     fig.update_layout(
         # autosize=False,
-        width=500,
-        height=500,
+        width=800,
+        height=600,
         margin=dict(
             l=50,
             r=50,
@@ -112,6 +114,7 @@ def layout_fig(fig):
             t=100,
             pad=4
         ),
+        
     )
     return fig
 
@@ -125,6 +128,7 @@ def clean_all():
     Functions.addedSignals=[]
     Functions.composedAmp=np.zeros(1000)
     Functions.composedAmp=np.zeros(1000)
+
 
 # sampling , interpolation & converting to Freq domain 
 def tofrqDomain_converter(yt):
@@ -148,6 +152,7 @@ def sampling(samp_frq):
 def sinc_interp(samp_freq):
     samp_time,samp_amp=sampling(samp_freq)
     time_matrix= np.resize(mainTimeAxis,(len(samp_time),len(mainTimeAxis))) # to be able to sabstract nT from t
+    
     k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0]) 
     resulted_matrix = samp_amp* np.sinc(k)
     reconstucted_seg= np.sum(resulted_matrix, axis=1)

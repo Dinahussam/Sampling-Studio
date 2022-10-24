@@ -13,8 +13,7 @@ st.set_page_config(
  
 # title
 st.title("Sampling studio")
-st.write("our web application about signal sampling or nyequist theroem which defines the min sample rate for highest frequency, it is principle to reproduce pure waves which must be at least twice its frequency. it is show how add, delete, generate signal and show noise")
-  
+st.write("This application is used to show how applying different frequencies affects signal sampling and recovering  according to nyquist theorem and Sinc interpolation ")
 #initiating df(dataframe) and empty fig
 toadd_fig= px.density_heatmap(
          data_frame=[{}])
@@ -35,7 +34,7 @@ composed_fig= functions.layout_fig(composed_fig)
 
 #sidebar components
 with st.sidebar:
-    tab_gen,tab_snr, tab_del, tab_save, tab_samp = st.tabs(["Generate", "SNR" ,"Delete","Save" ,"Sample"])
+    tab_gen,tab_snr, tab_del, tab_save, tab_samp= st.tabs(["Generate", "SNR" ,"Delete","Save" ,"Sample"])
 
     with tab_gen:
         frq_value =st.number_input('Signal frequancy', min_value= 0.01,value=1.0, step=1.0)
@@ -79,6 +78,8 @@ with st.sidebar:
         if st.button('Save the current resulted Signal'): 
             functions.save_signal(file_name) 
             st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+    # with tab_select:
+        # st.multiselect("choose the signal you want to delete",options=options_list,key='disabled' ,default=None)
       
    
     with tab_samp:
@@ -86,8 +87,8 @@ with st.sidebar:
             maxFreq= max(functions.Functions.addedFreqs)
             st.title(f'max freq= {maxFreq}') 
             st.write('the sampling freq = sampling factor*max feq')
-            samp_freq= st.slider('sampling freq', min_value=  1.000001 , value= 1.000001, max_value=10*maxFreq)
-            st.write(f'Your sampling factor = {samp_freq/maxFreq}')
+            samp_freq= st.slider('sampling freq', min_value=  1, value= 1, max_value=10*int(maxFreq))
+            # st.write(f'Your sampling factor = {samp_freq/maxFreq}')
             samp_fig, sampfreq_fig =functions.sinc_interp(samp_freq)
             samp_fig= functions.layout_fig(samp_fig)
             sampfreq_fig= functions.layout_fig(sampfreq_fig)
@@ -106,25 +107,18 @@ sampling_cont= st.container()
 with composer_cont:
 
     st.markdown("## Signals Mixer")
-    fig_toadd ,fig_composed = st.columns((2))
-    
-    with fig_toadd:
-        st.markdown("#### Generated Signal")
-        st.write(toadd_fig)
-    
-    with fig_composed:
+    tab0,tab1, tab2, tab3 = st.tabs(["Generate","Composed", "time Sampling" , "freq Sampling"])
+    with tab0:
+        st.markdown("#### Genrated Signal")
+        st.write(toadd_fig) 
+    with tab1:
         st.markdown("#### Composed Signal")
-        st.write(composed_fig)     
-
-with sampling_cont:
+        st.write(composed_fig) 
     
-    st.markdown("## Sampling & Recovering")
-    fig_sampled, fig_freqsampled = st.columns((2))
-        
-    with fig_sampled:
+    with tab2:
         st.markdown("#### time domain")
         st.write(samp_fig)
 
-    with fig_freqsampled:
+    with tab3:
         st.markdown("#### freq domain")
-        st.write(sampfreq_fig)
+        st.write(sampfreq_fig)    
