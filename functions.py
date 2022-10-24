@@ -1,4 +1,5 @@
 import math
+import plotly.express as px 
 from turtle import colormode
 import numpy as np  
 import pandas as pd  
@@ -16,16 +17,17 @@ class Functions:
     addedSignals=[]
     composedAmp=np.zeros(1000)
     options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
-
+    commonXaxis=np.linspace(0,2,1000).tolist()
 tmax=2
 n=1000
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
+
 
 def show_sin (magnitude, phase, frequency):  # Add new sin Signal
     Y = np.zeros(1000)  # Array for saving sin Signals values
     for i in range(1000): 
         Y[i] = (magnitude * (math.sin((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
-    return go.Figure([go.Scatter(x=mainTimeAxis, y=Y)])
+    return px.line(x=mainTimeAxis, y=Y)
 
 def show_composed():  # Add new sin Signal
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
