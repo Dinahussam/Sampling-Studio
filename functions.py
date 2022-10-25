@@ -108,13 +108,13 @@ def layout_fig(fig):
     fig.update_layout(
         # autosize=False,
         width=800,
-        height=600,
+        height=400,
         margin=dict(
             l=50,
             r=50,
-            b=100,
-            t=100,
-            pad=4
+            b=50,
+            t=50,
+            pad=1
         ),
         
     )

@@ -1,3 +1,4 @@
+from statistics import mode
 import functions
 import pandas as pd 
 import plotly.express as px  # interactive charts
@@ -13,12 +14,12 @@ st.set_page_config(
 )
 
 # styles from css file
-with open(r"C:\Users\Function\Downloads\DSP_Task1_14-main\DSP_Task1_14-main\style.css") as design:
+with open(r"style.css") as design:
     st.markdown(f"<style>{design.read()}</style>", unsafe_allow_html=True)
  
 # title
 st.title("Sampling studio")
-st.write("This application is used to show how applying different frequencies affects signal sampling and recovering  according to nyquist theorem and Sinc interpolation ")
+# st.write("This application is used to show how applying different frequencies affects signal sampling and recovering  according to nyquist theorem and Sinc interpolation ")
 #initiating df(dataframe) and empty fig
 toadd_fig= px.density_heatmap(
          data_frame=[{}])
@@ -50,20 +51,10 @@ with st.sidebar:
     amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
     phase_value = col_phase.number_input('phase shift', min_value=0, max_value=360, value=0, step=5)
 
-    col_add, col_upload = st.columns([1.5, 3])
+    col_add, empty = st.columns([1.5, 3])
     if col_add.button('ADD Signal'):
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
-    uploaded_file = col_upload.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file')
-    if (uploaded_file):
-        df = pd.read_csv(uploaded_file)
-        if col_upload.button('Upload to existing'):
-            composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
-                                                   df['numberOfSignals'])
-        if st.button('Clear then upload'):
-            composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
-                                                   df['numberOfSignals'])
-
     st.write("SNR:")
     col_snr_slider, col_space, col_btn_noise = st.columns([2, 0.2, 1])
     snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000)
@@ -90,19 +81,10 @@ with st.sidebar:
     else:
         st.title("You have no added signals to delete")
 
-    st.write("Save:")
-    col_fileName_save, col_btn_save = st.columns([2, 1])
-    file_name = col_fileName_save.text_input('Write file name to be saved')
-    if col_btn_save.button('Save Signal'):  # Save the current resulted Signal
-        functions.save_signal(file_name)
-        st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
-    # with tab_select:
-    # st.multiselect("choose the signal you want to delete",options=options_list,key='disabled' ,default=None)
-
-    st.write("Sample:")
+    # st.write("Sample:")
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
-        st.title(f'max freq= {maxFreq}')
+        st.write(f'Sample:max freq= {maxFreq}')
         st.write('the sampling freq = sampling factor*max feq')
         samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq))
         # st.write(f'Your sampling factor = {samp_freq/maxFreq}')
@@ -119,24 +101,12 @@ toadd_fig= functions.layout_fig(toadd_fig)
 
 #STREAMLIT COLUMNS AND ROWS 
 
-# Check boxes
-check1,check2=st.columns((2))
-check3,check4=st.columns((2))
-
-options=[0,0,0,0]
-
-with check1:
-    options[0]=st.checkbox('Generated signal', value=False)
-with check2:
-    options[1]=st.checkbox('composed signal', value=False)
-with check3:
-    options[2]=st.checkbox('Sampled signal', value=False)
-with check4:
-    options[3]=st.checkbox('Sampling points', value=False)
-# end of check boxes
 
 # Selecting graph
+options=[0,0,0,0]
+
 composer_cont= st.container()
+col_check,col_figure=st.columns([1,4])
 
 Y_toaddfig=toadd_fig.data[0]['y']
 Y_composed_fig=composed_fig.data[0]['y']
@@ -144,17 +114,45 @@ Y_samp_fig=samp_fig.data[0]['y']
 time,Y_samp_points=functions.sampling(sampling_freq)
 
 with composer_cont:
+    with col_check:
+        st.markdown("## Signal Mixer")
+        options[0]=st.checkbox('Generated signal', value=False)
+
+        options[1]=st.checkbox('composed signal', value=False)
+
+        options[2]=st.checkbox('Sampled signal', value=False)
+
+        options[3]=st.checkbox('Sampling points', value=False)
 
 
-    st.markdown("## Signal Mixer")
-    if(options[0]):
-        shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig))
-    if(options[1]):
-        shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig))
-    if(options[2]):
-        shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig))
-    if(options[3]):
-        shown_fig.add_trace(px.scatter(x=time ,y=Y_samp_points,color_discrete_sequence=["red"]))
+    with col_figure:
 
-    st.write(shown_fig)    
+        if(options[0]):
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig))
+        if(options[1]):
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig))
+        if(options[2]):
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig))
+        if(options[3]):
+            shown_fig.add_trace(go.scatter(x=time ,y=Y_samp_points))
+
+        st.write(shown_fig)    
 # end of selecting graphs
+
+# Save and upload
+col_save, col_upload=st.columns((2))
+uploaded_file = col_upload.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file')
+if (uploaded_file):
+    df = pd.read_csv(uploaded_file)
+    if col_upload.button('Upload to existing'):
+        composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
+                                                df['numberOfSignals'])
+    if st.button('Clear then upload'):
+        composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
+                                                  df['numberOfSignals'])
+with col_save:
+        file_name=st.text_input('Write file name to be saved')
+        if st.button('Save the current resulted Signal'): 
+            functions.save_signal(file_name) 
+            st.success("File is saved successfully as " + file_name + ".csv", icon="✅")   
+#end of Save and upload
