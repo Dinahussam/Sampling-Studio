@@ -37,3 +37,22 @@ p, ol, ul, dl {
     margin-top: 34px;
 }
 
+.css-18e3th9 {
+    flex: 1 1 0%;
+    width: 100%;
+    min-width: auto;
+    max-width: initial;
+    padding-top:5px;
+}
+
+.css-2ykyy6 {
+    display: block;
+    color: rgba(250, 250, 250, 0.4);
+    flex: 0 1 0%;
+    font-size: 14px;
+    min-width: auto;
+    max-width: initial;
+    /*padding: 0.5rem 1rem;*/
+    width: 100%;
+    padding-top:1px;
+}
