@@ -1,4 +1,5 @@
 from statistics import mode
+from turtle import color
 import functions
 import pandas as pd 
 import plotly.express as px  # interactive charts
@@ -152,13 +153,13 @@ with composer_cont:
     with col_figure:
 
         if(options[0]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig ,name='generated' ))
         if(options[1]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig,name='composed'))
         if(options[2]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig,name='sampled'))
         if(options[3]):
-            shown_fig.add_trace(go.scatter(x=time ,y=Y_samp_points))
+            shown_fig.add_trace(go.scatter(x=time ,y=Y_samp_points,name=' sample points'))
 
         st.write(shown_fig)    
 # end of selecting graphs
