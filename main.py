@@ -20,6 +20,30 @@ with open(r"style.css") as design:
 # title
 st.title("Sampling studio")
 # st.write("This application is used to show how applying different frequencies affects signal sampling and recovering  according to nyquist theorem and Sinc interpolation ")
+
+# Save and upload
+col_upload, col_save=st.columns([2, 2])
+
+uploaded_file = col_upload.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file')
+if (uploaded_file):
+    df = pd.read_csv(uploaded_file)
+    if col_upload.button('Upload to existing'):
+        composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
+                                                df['numberOfSignals'])
+    if st.button('Clear then upload'):
+        composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
+                                                  df['numberOfSignals'])
+
+with col_save:
+    file_name = col_save.text_input('Write file name to be saved')
+    if st.button('Save the current resulted Signal'):
+        functions.save_signal(file_name)
+        st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+
+
+
+#end of Save and upload
+
 #initiating df(dataframe) and empty fig
 toadd_fig= px.density_heatmap(
          data_frame=[{}])
@@ -138,21 +162,3 @@ with composer_cont:
 
         st.write(shown_fig)    
 # end of selecting graphs
-
-# Save and upload
-col_save, col_upload=st.columns((2))
-uploaded_file = col_upload.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file')
-if (uploaded_file):
-    df = pd.read_csv(uploaded_file)
-    if col_upload.button('Upload to existing'):
-        composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
-                                                df['numberOfSignals'])
-    if st.button('Clear then upload'):
-        composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
-                                                  df['numberOfSignals'])
-with col_save:
-        file_name=st.text_input('Write file name to be saved')
-        if st.button('Save the current resulted Signal'): 
-            functions.save_signal(file_name) 
-            st.success("File is saved successfully as " + file_name + ".csv", icon="✅")   
-#end of Save and upload
