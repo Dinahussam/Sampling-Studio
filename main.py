@@ -55,15 +55,15 @@ functions.default_fun()
 #sidebar components
 with st.sidebar:
 
-    col_upload, empty=st.columns([2, 2])
+    col_upload1, col_upload2=st.columns([4, 1])
     
-    uploaded_file = st.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
+    uploaded_file = col_upload1.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
     if (uploaded_file):
         df = pd.read_csv(uploaded_file)
-        if col_upload.button('Upload to existing'):
+        if col_upload2.button('Upload to existing'):
             composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
                                                     df['numberOfSignals'])
-        if st.button('Clear then upload'):
+        if col_upload2.button('Clear then upload'):
             composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
                                                     df['numberOfSignals'])
 
@@ -109,7 +109,7 @@ with st.sidebar:
 
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
-        samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq))
+        samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq) , label_visibility='collapsed')
         # st.write(f"note: current max freq= {maxFreq}")
         samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
         samp_fig = functions.layout_fig(samp_fig)
