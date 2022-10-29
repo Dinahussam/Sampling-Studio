@@ -107,7 +107,7 @@ def add_noise(addFlag, snrRatio):
 def layout_fig(fig):
     fig.update_layout(
         # autosize=False,
-        width=800,
+        width=700,
         height=400,
         margin=dict(
             l=50,
