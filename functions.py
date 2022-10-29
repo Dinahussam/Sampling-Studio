@@ -18,6 +18,7 @@ class Functions:
     composedAmp=np.zeros(1000)
     options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
     commonXaxis=np.linspace(0,2,1000).tolist()
+    default_flag=1
 tmax=2
 n=1000
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
@@ -163,3 +164,7 @@ def sinc_interp(samp_freq):
     x_f, y_f = tofrqDomain_converter(reconstucted_seg)
     return go.Figure(data = reconstructed_fig.data + samplingPoints_fig.data), go.Figure([go.Scatter(x=x_f, y=y_f)])
 
+def default_fun ():
+    if (Functions.default_flag):
+        add_signal(1, 0,1)
+        Functions.default_flag=0

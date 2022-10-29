@@ -1,9 +1,12 @@
 from statistics import mode
+from turtle import color
 import functions
 import pandas as pd 
 import plotly.express as px  # interactive charts
 import streamlit as st  # 🎈 data web app development
 import plotly.graph_objects as go
+
+
 
 
 # general styling and tab name
@@ -48,6 +51,7 @@ shown_fig= functions.layout_fig(shown_fig)
 
 sampling_freq=00.1
 
+functions.default_fun()
 #sidebar components
 with st.sidebar:
 
@@ -146,7 +150,7 @@ with composer_cont:
 
         options[3]=st.checkbox('Sampling points', value=False)
 
-
+    
     with col_figure:
         
         if(options[0]):
