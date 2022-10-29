@@ -70,39 +70,34 @@ with st.sidebar:
 
 
 
-    col_freq, col_amp, col_phase = st.columns([2, 2, 2])
+    col_freq, col_amp, col_phase, col_add = st.columns([2, 2, 2,2])
     frq_value = col_freq.number_input('frequancy', min_value=0.01, value=1.0, step=1.0)
     amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
     phase_value = col_phase.number_input('phase shift', min_value=0, max_value=360, value=0, step=5)
-
-    col_add, empty = st.columns([1.5, 3])
+    col_add.write('')
+    col_add.write('')
     if col_add.button('ADD Signal'):
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
     st.write("SNR:")
-    col_snr_slider, col_space, col_btn_noise = st.columns([2, 0.2, 1])
-    snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000)
+    col_snr_slider, col_space, col_btn_noise = st.columns([5.5,0.5, 2])
+    snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000, label_visibility='collapsed')
     if (snr_value != 10000):
         composed_fig = functions.add_noise(False, snr_value)
     composed_fig = functions.layout_fig(composed_fig)
-
-    col_btn_noise.write('  ')
-    col_btn_noise.write('  ')
 
     if col_btn_noise.button('ADD noise'):
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
-    col_choose_delete,col_space ,col_btn_delete = st.columns([2, 0.2,1])
+    col_choose_delete,col_space ,col_btn_delete = st.columns([6,0.5, 2])
     if (len(functions.Functions.addedSignals)):
         todelete_list = []
         for signal in range(len(functions.Functions.addedSignals)):
             todelete_list.append(
                 f"freq={functions.Functions.addedFreqs[signal]}, amp={functions.Functions.addedAmps[signal]}, phase={functions.Functions.addedPhases[signal]}", )
-        todelete_list = col_choose_delete.multiselect("choose the signal you want to delete", options=todelete_list, key='disabled',
+        todelete_list = col_choose_delete.multiselect("choose the signal you want to delete", options=todelete_list, key='disabled',label_visibility='collapsed',
                                        default=None)
-        col_btn_delete.write('  ')
-        col_btn_delete.write('  ')
     
        
         if col_btn_delete.button(' DELETE '):
@@ -115,10 +110,16 @@ with st.sidebar:
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
         samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq))
-        st.write(f"note: current max freq= {maxFreq}")
+        # st.write(f"note: current max freq= {maxFreq}")
         samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
         samp_fig = functions.layout_fig(samp_fig)
         sampfreq_fig = functions.layout_fig(sampfreq_fig)
+   
+   
+        file_name = st.text_input('Write file name to be saved')
+        if st.button('Save the current resulted Signal'):
+            functions.save_signal(file_name)
+            # st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
         
     
 toadd_fig=functions.show_sin(amplitude_value,phase_value ,frq_value )
@@ -141,10 +142,13 @@ time,Y_samp_points=functions.sampling(sampling_freq)
 
 with composer_cont:
     with col_check:
+        st.write('')
+        st.write('')
+        st.write('')
         st.markdown("## Signal Mixer")
         options[0]=st.checkbox('Generated signal', value=False)
 
-        options[1]=st.checkbox('composed signal', value=False)
+        options[1]=st.checkbox('composed signal', value=True)
 
         options[2]=st.checkbox('Sampled signal', value=False)
 
@@ -169,13 +173,6 @@ with composer_cont:
 # end of selecting graphs
 
 
-col_save , empty=st.columns([2, 2])
-
-with col_save:
-    file_name = col_save.text_input('Write file name to be saved')
-    if st.button('Save the current resulted Signal'):
-        functions.save_signal(file_name)
-        st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
 
 
 

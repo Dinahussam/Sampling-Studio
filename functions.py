@@ -110,6 +110,8 @@ def layout_fig(fig):
         # autosize=False,
         width=700,
         height=400,
+        xaxis_title="Time(s)",
+        yaxis_title="Amplitude (mV)",
         margin=dict(
             l=50,
             r=50,
