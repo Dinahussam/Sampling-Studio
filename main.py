@@ -69,8 +69,7 @@ sampling_freq=00.1
 
 #sidebar components
 with st.sidebar:
-    st.write("Generate:")
-    col_freq, col_amp, col_phase = st.columns([1.6, 1.6, 1.6])
+    col_freq, col_amp, col_phase = st.columns([2, 2, 2])
     frq_value = col_freq.number_input('frequancy', min_value=0.01, value=1.0, step=1.0)
     amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
     phase_value = col_phase.number_input('phase shift', min_value=0, max_value=360, value=0, step=5)
@@ -89,7 +88,6 @@ with st.sidebar:
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
-    st.write("Delete:")
     col_choose_delete,col_space, col_btn_delete = st.columns([1.4, 0.2, 1])
     if (len(functions.Functions.addedSignals)):
         todelete_list = []
@@ -103,20 +101,15 @@ with st.sidebar:
                 if (todelete_list[todeleteSigindex]):
                     functions.delete_signal(todeleteSigindex)
     else:
-        st.title("You have no added signals to delete")
+        st.title("You have no added signals to Sample or Delete")
 
-    # st.write("Sample:")
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
-        st.write(f'Sample:max freq= {maxFreq}')
-        st.write('the sampling freq = sampling factor*max feq')
         samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq))
-        # st.write(f'Your sampling factor = {samp_freq/maxFreq}')
+        st.write(f"note: max freq= {maxFreq}")
         samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
         samp_fig = functions.layout_fig(samp_fig)
         sampfreq_fig = functions.layout_fig(sampfreq_fig)
-    else:
-        st.title("Construct your Signal you want to sample first")
         
     
 toadd_fig=functions.show_sin(amplitude_value,phase_value ,frq_value )
@@ -150,7 +143,14 @@ with composer_cont:
 
 
     with col_figure:
-
+        toadd= px.line(x=functions.Functions.commonXaxis , y= Y_toaddfig, color_discrete_sequence=["blue"])
+        composed= px.line(x=functions.Functions.commonXaxis , y= Y_composed_fig ,color_discrete_sequence=["red"])
+        sampgraph= px.line(x=functions.Functions.commonXaxis , y= Y_samp_fig ,color_discrete_sequence=["green"] )
+        if(len(functions.Functions.addedSignals)>0):
+            samp_time, samp_frq= functions.sampling(samp_freq)
+            samppnts=px.scatter(x=samp_time , y= samp_frq ,color_discrete_sequence=["orange"])
+        else :
+            samppnts= px.line(x=functions.Functions.commonXaxis , y= Y_samp_fig )
         if(options[0]):
             shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig))
         if(options[1]):
@@ -158,7 +158,23 @@ with composer_cont:
         if(options[2]):
             shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig))
         if(options[3]):
-            shown_fig.add_trace(go.scatter(x=time ,y=Y_samp_points))
+            if(options[0] & options[1] & options[2]):
+                shown_fig=go.Figure(data =  toadd.data+ composed.data + sampgraph.data +samppnts.data)
+            elif(options[1] & options[2]):
+                shown_fig=go.Figure(data =  composed.data + sampgraph.data+samppnts.data)
+            elif(options[0] & options[1]):
+                shown_fig=go.Figure(data =  toadd.data+ composed.data +samppnts.data)
+            elif(options[0] & options[2]):
+                shown_fig=go.Figure(data =  toadd.data+ sampgraph.data+samppnts.data)
+            elif(options[0]):
+                shown_fig=go.Figure(data =  toadd.data+samppnts.data)
+            elif(options[1]):
+                shown_fig=go.Figure(data =  composed.data+samppnts.data)
+            elif(options[2]):
+                shown_fig=go.Figure(data =  sampgraph.data+samppnts.data)
+            else:
+                shown_fig=go.Figure(data = samppnts.data)
+
 
         st.write(shown_fig)    
 # end of selecting graphs
