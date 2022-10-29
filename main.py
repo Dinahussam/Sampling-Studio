@@ -55,15 +55,17 @@ functions.default_fun()
 #sidebar components
 with st.sidebar:
 
-    col_upload1, col_upload2=st.columns([4, 1])
+    col_upload1, col_upload2=st.columns([4, 2])
     
     uploaded_file = col_upload1.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
+    toexist =col_upload2.button('Upload to existing')
+    clearfirst=col_upload2.button('Clear then upload')
     if (uploaded_file):
         df = pd.read_csv(uploaded_file)
-        if col_upload2.button('Upload to existing'):
+        if toexist:
             composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
                                                     df['numberOfSignals'])
-        if col_upload2.button('Clear then upload'):
+        if clearfirst:
             composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
                                                     df['numberOfSignals'])
 
@@ -80,7 +82,7 @@ with st.sidebar:
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
     st.write("SNR:")
-    col_snr_slider, col_space, col_btn_noise = st.columns([5.5,0.5, 2])
+    col_snr_slider, col_space, col_btn_noise = st.columns([6,0.1, 2])
     snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000, label_visibility='collapsed')
     if (snr_value != 10000):
         composed_fig = functions.add_noise(False, snr_value)
@@ -90,7 +92,7 @@ with st.sidebar:
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
-    col_choose_delete,col_space ,col_btn_delete = st.columns([6,0.5, 2])
+    col_choose_delete,col_space ,col_btn_delete = st.columns([6,0.1, 1.8])
     if (len(functions.Functions.addedSignals)):
         todelete_list = []
         for signal in range(len(functions.Functions.addedSignals)):
@@ -109,7 +111,7 @@ with st.sidebar:
 
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
-        samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq) , label_visibility='collapsed')
+        samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq) ,)
         # st.write(f"note: current max freq= {maxFreq}")
         samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
         samp_fig = functions.layout_fig(samp_fig)
