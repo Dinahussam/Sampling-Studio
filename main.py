@@ -22,25 +22,6 @@ st.title("Sampling studio")
 # st.write("This application is used to show how applying different frequencies affects signal sampling and recovering  according to nyquist theorem and Sinc interpolation ")
 
 # Save and upload
-col_upload, col_save=st.columns([2, 2])
-
-uploaded_file = col_upload.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file')
-if (uploaded_file):
-    df = pd.read_csv(uploaded_file)
-    if col_upload.button('Upload to existing'):
-        composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
-                                                df['numberOfSignals'])
-    if st.button('Clear then upload'):
-        composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
-                                                  df['numberOfSignals'])
-
-with col_save:
-    file_name = col_save.text_input('Write file name to be saved')
-    if st.button('Save the current resulted Signal'):
-        functions.save_signal(file_name)
-        st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
-
-
 
 #end of Save and upload
 
@@ -69,6 +50,22 @@ sampling_freq=00.1
 
 #sidebar components
 with st.sidebar:
+
+    col_upload, empty=st.columns([2, 2])
+    
+    uploaded_file = st.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
+    if (uploaded_file):
+        df = pd.read_csv(uploaded_file)
+        if col_upload.button('Upload to existing'):
+            composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
+                                                    df['numberOfSignals'])
+        if st.button('Clear then upload'):
+            composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
+                                                    df['numberOfSignals'])
+
+
+
+
     col_freq, col_amp, col_phase = st.columns([2, 2, 2])
     frq_value = col_freq.number_input('frequancy', min_value=0.01, value=1.0, step=1.0)
     amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
@@ -84,19 +81,27 @@ with st.sidebar:
     if (snr_value != 10000):
         composed_fig = functions.add_noise(False, snr_value)
     composed_fig = functions.layout_fig(composed_fig)
+
+    col_btn_noise.write('  ')
+    col_btn_noise.write('  ')
+
     if col_btn_noise.button('ADD noise'):
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
-    col_choose_delete,col_space, col_btn_delete = st.columns([1.4, 0.2, 1])
+    col_choose_delete,col_space ,col_btn_delete = st.columns([2, 0.2,1])
     if (len(functions.Functions.addedSignals)):
         todelete_list = []
         for signal in range(len(functions.Functions.addedSignals)):
             todelete_list.append(
                 f"freq={functions.Functions.addedFreqs[signal]}, amp={functions.Functions.addedAmps[signal]}, phase={functions.Functions.addedPhases[signal]}", )
-        todelete_list = st.multiselect("choose the signal you want to delete", options=todelete_list, key='disabled',
+        todelete_list = col_choose_delete.multiselect("choose the signal you want to delete", options=todelete_list, key='disabled',
                                        default=None)
-        if st.button(' DELETE '):
+        col_btn_delete.write('  ')
+        col_btn_delete.write('  ')
+    
+       
+        if col_btn_delete.button(' DELETE '):
             for todeleteSigindex in range(len(todelete_list)):
                 if (todelete_list[todeleteSigindex]):
                     functions.delete_signal(todeleteSigindex)
@@ -106,7 +111,7 @@ with st.sidebar:
     if (len(functions.Functions.addedFreqs) > 0):
         maxFreq = max(functions.Functions.addedFreqs)
         samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq))
-        st.write(f"note: max freq= {maxFreq}")
+        st.write(f"note: current max freq= {maxFreq}")
         samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
         samp_fig = functions.layout_fig(samp_fig)
         sampfreq_fig = functions.layout_fig(sampfreq_fig)
@@ -143,8 +148,7 @@ with composer_cont:
 
 
     with col_figure:
-        if(len(functions.Functions.addedSignals)>0):
-            samp_time, samp_frq= functions.sampling(samp_freq)
+        
         if(options[0]):
             shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig , name= 'generated signal'))
         if(options[1]):
@@ -152,6 +156,23 @@ with composer_cont:
         if(options[2]):
             shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
         if(options[3]):
-            shown_fig.add_trace(go.Scatter(x=samp_time , y= samp_frq, mode="markers" ,name='sampling points'))
+            if(len(functions.Functions.addedSignals)>0):
+                samp_time, samp_frq= functions.sampling(samp_freq)
+                shown_fig.add_trace(go.Scatter(x=samp_time , y= samp_frq, mode="markers" ,name='sampling points'))
+            else:
+                 shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
         st.write(shown_fig)    
 # end of selecting graphs
+
+
+col_save , empty=st.columns([2, 2])
+
+with col_save:
+    file_name = col_save.text_input('Write file name to be saved')
+    if st.button('Save the current resulted Signal'):
+        functions.save_signal(file_name)
+        st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+
+
+
+
