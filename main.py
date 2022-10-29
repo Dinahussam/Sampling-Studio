@@ -7,6 +7,8 @@ import streamlit as st  # 🎈 data web app development
 import plotly.graph_objects as go
 
 
+
+
 # general styling and tab name
 st.set_page_config(
     page_title="Sampling Studio",
@@ -68,6 +70,7 @@ shown_fig= functions.layout_fig(shown_fig)
 
 sampling_freq=00.1
 
+functions.default_fun()
 #sidebar components
 with st.sidebar:
     col_freq, col_amp, col_phase = st.columns([2, 2, 2])
@@ -144,39 +147,15 @@ with composer_cont:
 
     
     with col_figure:
-        toadd= px.line(x=functions.Functions.commonXaxis , y= Y_toaddfig, color_discrete_sequence=["blue"])
-        composed= px.line(x=functions.Functions.commonXaxis , y= Y_composed_fig ,color_discrete_sequence=["red"])
-        sampgraph= px.line(x=functions.Functions.commonXaxis , y= Y_samp_fig ,color_discrete_sequence=["green"] )
         if(len(functions.Functions.addedSignals)>0):
             samp_time, samp_frq= functions.sampling(samp_freq)
-            samppnts=px.scatter(x=samp_time , y= samp_frq ,color_discrete_sequence=["orange"])
-        else :
-            samppnts= px.line(x=functions.Functions.commonXaxis , y= Y_samp_fig )
         if(options[0]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig ,name='generated',  ))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig , name= 'generated signal'))
         if(options[1]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig,name='composed'))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig , name='composed signal'))
         if(options[2]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig,name='sampled'))
+            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
         if(options[3]):
-            shown_fig.add_trace(go.scatter(x=time ,y=Y_samp_points,name=' sample points'))
-            if(options[0] & options[1] & options[2]):
-                shown_fig=go.Figure(data =  toadd.data+ composed.data + sampgraph.data +samppnts.data)
-            elif(options[1] & options[2]):
-                shown_fig=go.Figure(data =  composed.data + sampgraph.data+samppnts.data)
-            elif(options[0] & options[1]):
-                shown_fig=go.Figure(data =  toadd.data+ composed.data +samppnts.data)
-            elif(options[0] & options[2]):
-                shown_fig=go.Figure(data =  toadd.data+ sampgraph.data+samppnts.data)
-            elif(options[0]):
-                shown_fig=go.Figure(data =  toadd.data+samppnts.data)
-            elif(options[1]):
-                shown_fig=go.Figure(data =  composed.data+samppnts.data)
-            elif(options[2]):
-                shown_fig=go.Figure(data =  sampgraph.data+samppnts.data)
-            else:
-                shown_fig=go.Figure(data = samppnts.data)
-
-
-        st.write(shown_fig)    
+            shown_fig.add_trace(go.Scatter(x=samp_time , y= samp_frq, mode="markers" ,name='sampling points'))
+        st.write(shown_fig)     
 # end of selecting graphs
