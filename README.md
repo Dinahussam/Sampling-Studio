@@ -22,7 +22,9 @@ our web application about signal sampling or nyequist theroem which defines the 
 You can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it or upload it from your browser and also you can add several signals to each other to generate a new signal from them.
 
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg)
-
+<p align="center">
+    <img width="500" height="200" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg">
+</p>
 
 ### Add_SNR:
 You can add SNR and showing how the noise changes the signal.
@@ -40,7 +42,10 @@ You can save your signal as CSV file in your browser and you can complete your p
 You can show max frequency and changing sample frequency, show over-sampling and aliasing conditions.
 
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling.jpg)
-![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq_factor.jpg)
+<p align="center">
+    <img width="500" height="200" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq_factor.jpg">
+</p>
+
 
 ### Sampling_Points:
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling_points.jpg)
