@@ -39,8 +39,10 @@ You can save your signal as CSV file in your browser and you can complete your p
 ### Sampling_and_recover_signal:
 You can show max frequency and changing sample frequency, show over-sampling and aliasing conditions.
 
-![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling.png)
+![repo 1-1]()
 
+### Sampling_Points:
+![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/sampling.png)
 
 ### Save_signal_as_png_photo:
 You can save the signal as png photo in your browser.
