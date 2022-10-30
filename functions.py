@@ -16,6 +16,7 @@ class Functions:
     addedPhases=[]
     addedSignals=[]
     composedAmp=np.zeros(1000)
+    y_reconstractedSig=np.zeros(1000)
     options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
     commonXaxis=np.linspace(0,2,1000).tolist()
     default_flag=1
@@ -75,12 +76,13 @@ def upload_signal(Clean_flag,frequinces,amplitudes,phases,numberOfSignals):
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
 def save_signal(file_name):
-    graph_axises = pd.DataFrame({'time':mainTimeAxis,'amp':Functions.composedAmp})
+    graph_axises = pd.DataFrame({'time':mainTimeAxis,'amp':Functions.composedAmp,'amp_reconstracted':Functions.y_reconstractedSig})
     graph_detials = pd.DataFrame({ 
         'frequencies':Functions.addedFreqs,
         'amplitudes':Functions.addedAmps,
         'phases':Functions.addedPhases,
         'numberOfSignals':Functions.numberSignalsAdded+1
+        
         })
     graph = pd.concat([graph_axises, graph_detials], axis=1) 
     file_name=file_name+'.csv'   
@@ -160,10 +162,10 @@ def sinc_interp(samp_freq):
     
     k= (time_matrix.T - samp_time)/(samp_time[1]-samp_time[0]) 
     resulted_matrix = samp_amp* np.sinc(k)
-    reconstucted_seg= np.sum(resulted_matrix, axis=1)
-    reconstructed_fig = px.line(x=mainTimeAxis , y= reconstucted_seg)
+    Functions.y_reconstractedSig= np.sum(resulted_matrix, axis=1)
+    reconstructed_fig = px.line(x=mainTimeAxis , y= Functions.y_reconstractedSig)
     samplingPoints_fig = px.scatter(x=samp_time, y=samp_amp ,color_discrete_sequence=["red"],)
-    x_f, y_f = tofrqDomain_converter(reconstucted_seg)
+    x_f, y_f = tofrqDomain_converter(Functions.y_reconstractedSig)
     return go.Figure(data = reconstructed_fig.data + samplingPoints_fig.data), go.Figure([go.Scatter(x=x_f, y=y_f)])
 
 def default_fun ():

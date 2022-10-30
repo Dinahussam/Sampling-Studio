@@ -27,7 +27,7 @@ st.title("Sampling studio")
 # Save and upload
 
 #end of Save and upload
-
+functions.default_fun()
 #initiating df(dataframe) and empty fig
 toadd_fig= px.density_heatmap(
          data_frame=[{}])
@@ -51,7 +51,7 @@ shown_fig= functions.layout_fig(shown_fig)
 
 sampling_freq=00.1
 
-functions.default_fun()
+
 #sidebar components
 with st.sidebar:
 
@@ -81,14 +81,13 @@ with st.sidebar:
     if col_add.button('ADD Signal'):
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
-    st.write("SNR:")
     col_snr_slider, col_space, col_btn_noise = st.columns([6,0.1, 2])
     snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000, label_visibility='collapsed')
     if (snr_value != 10000):
         composed_fig = functions.add_noise(False, snr_value)
     composed_fig = functions.layout_fig(composed_fig)
 
-    if col_btn_noise.button('ADD noise'):
+    if col_btn_noise.button('SNR ratio'):
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
@@ -109,21 +108,42 @@ with st.sidebar:
     else:
         st.title("You have no added signals to Sample or Delete")
 
-    if (len(functions.Functions.addedFreqs) > 0):
-        maxFreq = max(functions.Functions.addedFreqs)
-        samp_freq = st.slider('sampling freq', min_value=1, value=1, max_value=10 * int(maxFreq) ,)
-        # st.write(f"note: current max freq= {maxFreq}")
-        samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
-        samp_fig = functions.layout_fig(samp_fig)
-        sampfreq_fig = functions.layout_fig(sampfreq_fig)
-   
-   
-        file_name = st.text_input('Write file name to be saved')
-        if st.button('Save the current resulted Signal'):
-            functions.save_signal(file_name)
-            # st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
-        
     
+
+    freqPresentationOptions= st.radio('sampling freq' ,('normalized Sampling freq' , 'actual Sampling freq'), index=0, horizontal=True, label_visibility='collapsed' )
+    
+    if(freqPresentationOptions=='normalized Sampling freq'):
+        factorSlider, unit = st.columns((8,3))
+        if (len(functions.Functions.addedFreqs) > 0):
+            maxFreq = max(functions.Functions.addedFreqs)
+            with factorSlider:
+                samp_factor = st.slider('sampling factor',label_visibility='collapsed', min_value=1, value=1, max_value=20 )
+            # st.write(f"note: current max freq= {maxFreq}")
+            samp_freq= maxFreq* samp_factor
+            samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
+            samp_fig = functions.layout_fig(samp_fig)
+            sampfreq_fig = functions.layout_fig(sampfreq_fig)
+            with unit:
+                st.write('fmax')
+    elif(freqPresentationOptions== 'actual Sampling freq'):
+        factorSlider, unit = st.columns((8,3))
+        if (len(functions.Functions.addedFreqs) > 0):
+            maxFreq = max(functions.Functions.addedFreqs)
+            with factorSlider:
+                samp_freq = st.slider('sampling freq', label_visibility='collapsed', min_value=1, value=1, max_value=20*maxFreq )
+            # st.write(f"note: current max freq= {maxFreq}")
+            samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
+            samp_fig = functions.layout_fig(samp_fig)
+            sampfreq_fig = functions.layout_fig(sampfreq_fig)
+            with unit:
+                st.write('Hz')
+
+    file_name = st.text_input('Write file name to be saved')
+    if st.button('Save the current resulted Signal'):
+        functions.save_signal(file_name)
+        # st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+    
+
 toadd_fig=functions.show_sin(amplitude_value,phase_value ,frq_value )
 toadd_fig= functions.layout_fig(toadd_fig)
 
