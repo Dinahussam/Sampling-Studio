@@ -39,7 +39,7 @@ You can save your signal as CSV file in your browser and you can complete your p
 ### Sampling_and_recover_signal:
 You can show max frequency and changing sample frequency, show over-sampling and aliasing conditions.
 
-![repo 1-1]()
+![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling.jpg)
 
 ### Sampling_Points:
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling_points.jpg)
