@@ -14,6 +14,7 @@ our web application about signal sampling or nyequist theroem which defines the 
 * [Add_SNR](#add_snr)
 * [Save signal as CSV file](#save_signal_as_CSV_file)
 * [Sampling and recover signal](#sampling_and_recover_signal)
+* [Sampling points](#sampling_points)
 * [Save signal as png photo](#save_signal_as_png_photo)
 * [Zoom in and out](#zoom_in_and_out)
 
