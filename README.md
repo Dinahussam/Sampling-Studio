@@ -26,7 +26,7 @@ You can generate a signal by choosing the frequency, amplitude, and phase shift 
 ### Add_SNR:
 You can add SNR and showing how the noise changes the signal.
 
-![repo 1-1](https://github.com/alaayasser01/first-dsp-task/blob/main/photos/side%20bar_SNR.png)
+![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/snr.jpg)
 
 
 ### Save_signal_as_CSV_file:
