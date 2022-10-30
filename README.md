@@ -21,29 +21,32 @@ our web application about signal sampling or nyequist theroem which defines the 
 ### Generate_signal:
 You can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it or upload it from your browser and also you can add several signals to each other to generate a new signal from them.
 
-![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg)
+
 <p align="center">
-    <img width="500" height="200" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg">
+    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg">
 </p>
 
 ### Add_SNR:
 You can add SNR and showing how the noise changes the signal.
 
-![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/snr.jpg)
 
+<p align="center">
+    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/snr.jpg">
+</p>
 
 ### Save_signal_as_CSV_file:
 You can save your signal as CSV file in your browser and you can complete your process in your signal when you upload it.
 
-![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/save.jpg)
-
+<p align="center">
+    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/save.jpg">
+</p>
 
 ### Sampling_and_recover_signal:
 You can show max frequency and changing sample frequency, show over-sampling and aliasing conditions.
 
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling.jpg)
 <p align="center">
-    <img width="500" height="200" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq_factor.jpg">
+    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq_factor.jpg">
 </p>
 
 
