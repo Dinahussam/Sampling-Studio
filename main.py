@@ -110,33 +110,34 @@ with st.sidebar:
 
     
 
-    freqPresentationOptions= st.radio('sampling freq' ,('normalized Sampling freq' , 'actual Sampling freq'), index=0, horizontal=True, label_visibility='collapsed' )
-    
-    if(freqPresentationOptions=='normalized Sampling freq'):
-        factorSlider, unit = st.columns((8,3))
-        if (len(functions.Functions.addedFreqs) > 0):
-            maxFreq = max(functions.Functions.addedFreqs)
-            with factorSlider:
-                samp_factor = st.slider('sampling factor',label_visibility='collapsed', min_value=1, value=1, max_value=20 )
-            # st.write(f"note: current max freq= {maxFreq}")
-            samp_freq= maxFreq* samp_factor
-            samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
-            samp_fig = functions.layout_fig(samp_fig)
-            sampfreq_fig = functions.layout_fig(sampfreq_fig)
-            with unit:
-                st.write('fmax')
-    elif(freqPresentationOptions== 'actual Sampling freq'):
-        factorSlider, unit = st.columns((8,3))
-        if (len(functions.Functions.addedFreqs) > 0):
-            maxFreq = max(functions.Functions.addedFreqs)
-            with factorSlider:
-                samp_freq = st.slider('sampling freq', label_visibility='collapsed', min_value=1, value=1, max_value=20*maxFreq )
-            # st.write(f"note: current max freq= {maxFreq}")
-            samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
-            samp_fig = functions.layout_fig(samp_fig)
-            sampfreq_fig = functions.layout_fig(sampfreq_fig)
-            with unit:
-                st.write('Hz')
+    if (len(functions.Functions.addedSignals)):
+        freqPresentationOptions= st.radio('sampling freq' ,('normalized Sampling freq' , 'actual Sampling freq'), index=0, horizontal=True, label_visibility='collapsed' )
+
+        if(freqPresentationOptions=='normalized Sampling freq'):
+            factorSlider, unit = st.columns((8,3))
+            if (len(functions.Functions.addedFreqs) > 0):
+                maxFreq = max(functions.Functions.addedFreqs)
+                with factorSlider:
+                    samp_factor = st.slider('sampling factor',label_visibility='collapsed', min_value=1, value=1, max_value=20 )
+                # st.write(f"note: current max freq= {maxFreq}")
+                samp_freq= maxFreq* samp_factor
+                samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
+                samp_fig = functions.layout_fig(samp_fig)
+                sampfreq_fig = functions.layout_fig(sampfreq_fig)
+                with unit:
+                    st.write('fmax')
+        elif(freqPresentationOptions== 'actual Sampling freq'):
+            factorSlider, unit = st.columns((8,3))
+            if (len(functions.Functions.addedFreqs) > 0):
+                maxFreq = max(functions.Functions.addedFreqs)
+                with factorSlider:
+                    samp_freq = st.slider('sampling freq', label_visibility='collapsed', min_value=1, value=1, max_value=20*int(maxFreq) )
+                # st.write(f"note: current max freq= {maxFreq}")
+                samp_fig, sampfreq_fig = functions.sinc_interp(samp_freq)
+                samp_fig = functions.layout_fig(samp_fig)
+                sampfreq_fig = functions.layout_fig(sampfreq_fig)
+                with unit:
+                    st.write('Hz')
 
     file_name = st.text_input('Write file name to be saved')
     if st.button('Save the current resulted Signal'):
