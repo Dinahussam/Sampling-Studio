@@ -43,7 +43,7 @@ You can show max frequency and changing sample frequency, show over-sampling and
 
 ### Sampling_Points:
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling_points.jpg)
-
+![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/points.jpg)
 ### Save_signal_as_png_photo:
 You can save the signal as png photo in your browser.
 
