@@ -1,6 +1,5 @@
 import math
 import plotly.express as px 
-from turtle import colormode
 import numpy as np  
 import pandas as pd  
 import plotly.graph_objects as go
@@ -24,6 +23,31 @@ tmax=2
 n=1000
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
 
+# default functions
+def default_fun ():
+    if (Functions.default_flag):
+        add_signal(1, 0,1)
+        Functions.default_flag=0
+
+def layout_fig(fig):
+    fig.update_layout(
+        # autosize=False,
+        width=700,
+        height=400,
+        xaxis_title="Time(s)",
+        yaxis_title="Amplitude (mV)",
+        margin=dict(
+            l=50,
+            r=50,
+            b=50,
+            t=50,
+            pad=1
+        ),
+        
+    )
+    return fig
+
+# signal generater & mixer
 
 def show_sin (magnitude, phase, frequency):  # Add new sin Signal
     Y = np.zeros(1000)  # Array for saving sin Signals values
@@ -64,13 +88,44 @@ def delete_signal(index_todelete):
         
         return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
+def add_noise(addFlag, snrRatio):
+    power = Functions.composedAmp**2
+    snr_db = 10 * np.log10(snrRatio)
+    signal_avg_power=np.mean(power)
+    signal_avg_power_db=10 * np.log10(signal_avg_power)
+    noise_db=signal_avg_power_db - snr_db
+    noise_watts=10 ** (noise_db/10)
+    mean_noise=0
+    noise=np.random.normal(mean_noise, np.sqrt(noise_watts),len(Functions.composedAmp))
+    if(addFlag):
+        Functions.composedAmp = Functions.composedAmp+noise
+        fig=go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
+    else:
+        noised_signal = Functions.composedAmp+noise
+        fig =go.Figure([go.Scatter(x=mainTimeAxis, y=noised_signal)])
+    return fig
+
+def clean_all():
+    #number of Signals added
+    Functions.numberSignalsAdded=-1
+    #lists of added features of the Signals
+    Functions.addedFreqs=[]
+    Functions.addedAmps=[]
+    Functions.addedPhases=[]
+    Functions.addedSignals=[]
+    Functions.composedAmp=np.zeros(1000)
+    Functions.composedAmp=np.zeros(1000)
+
+
+
+# uploading and  downloading
+
 def upload_signal(Clean_flag,frequinces,amplitudes,phases,numberOfSignals):
     # def upload_signal(Clean_flag,amp):
     if Clean_flag==1:
         clean_all()
     #updating lists
     num=int(numberOfSignals[0])
-    
     for i in range(0,num):
         add_signal(amplitudes[i], phases[i],frequinces[i])
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
@@ -90,53 +145,6 @@ def save_signal(file_name):
     # saving the dataframe 
     df.to_csv( file_name) 
     
-def add_noise(addFlag, snrRatio):
-    power = Functions.composedAmp**2
-    snr_db = 10 * np.log10(snrRatio)
-    signal_avg_power=np.mean(power)
-    signal_avg_power_db=10 * np.log10(signal_avg_power)
-    noise_db=signal_avg_power_db - snr_db
-    noise_watts=10 ** (noise_db/10)
-    mean_noise=0
-    noise=np.random.normal(mean_noise, np.sqrt(noise_watts),len(Functions.composedAmp))
-    if(addFlag):
-        Functions.composedAmp = Functions.composedAmp+noise
-        fig=go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
-    else:
-        noised_signal = Functions.composedAmp+noise
-        fig =go.Figure([go.Scatter(x=mainTimeAxis, y=noised_signal)])
-    return fig
-
-def layout_fig(fig):
-    fig.update_layout(
-        # autosize=False,
-        width=700,
-        height=400,
-        xaxis_title="Time(s)",
-        yaxis_title="Amplitude (mV)",
-        margin=dict(
-            l=50,
-            r=50,
-            b=50,
-            t=50,
-            pad=1
-        ),
-        
-    )
-    return fig
-
-def clean_all():
-    #number of Signals added
-    Functions.numberSignalsAdded=-1
-    #lists of added features of the Signals
-    Functions.addedFreqs=[]
-    Functions.addedAmps=[]
-    Functions.addedPhases=[]
-    Functions.addedSignals=[]
-    Functions.composedAmp=np.zeros(1000)
-    Functions.composedAmp=np.zeros(1000)
-
-
 # sampling , interpolation & converting to Freq domain 
 def tofrqDomain_converter(yt):
     fs= n/tmax  
@@ -168,7 +176,3 @@ def sinc_interp(samp_freq):
     x_f, y_f = tofrqDomain_converter(Functions.y_reconstractedSig)
     return go.Figure(data = reconstructed_fig.data + samplingPoints_fig.data), go.Figure([go.Scatter(x=x_f, y=y_f)])
 
-def default_fun ():
-    if (Functions.default_flag):
-        add_signal(1, 0,1)
-        Functions.default_flag=0
