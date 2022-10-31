@@ -76,3 +76,11 @@ the other is the fuctions file which devided into 3 sections :
 
 ## Technology_used:
 Streamlit link.
+
+## team members: 
+
+- alaa yasser 
+- dina hussam 
+- dina mostafa
+- mariam mohamed 
+
