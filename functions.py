@@ -1,4 +1,5 @@
 import math
+from unittest.result import failfast
 import plotly.express as px 
 import numpy as np  
 import pandas as pd  
@@ -19,6 +20,7 @@ class Functions:
     options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
     commonXaxis=np.linspace(0,2,1500).tolist()
     default_flag=1
+    user_namedFile=''
 tmax=2
 n=1500
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
@@ -129,7 +131,7 @@ def upload_signal(Clean_flag,frequinces,amplitudes,phases,numberOfSignals):
         add_signal(amplitudes[i], phases[i],frequinces[i])
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
-def save_signal(file_name):
+def save_signal():
     graph_axises = pd.DataFrame({'time':mainTimeAxis,'amp':Functions.composedAmp,'amp_reconstracted':Functions.y_reconstractedSig})
     graph_detials = pd.DataFrame({ 
         'frequencies':Functions.addedFreqs,
@@ -139,11 +141,16 @@ def save_signal(file_name):
         
         })
     graph = pd.concat([graph_axises, graph_detials], axis=1) 
-    file_name=file_name+'.csv'   
+    # file_name=file_name+'.csv'   
     df = pd.DataFrame(graph) 
     # saving the dataframe 
-    df.to_csv( file_name) 
-    
+    csv_file=df.to_csv()
+    return csv_file
+
+def save_signalName(fileName):
+    if (fileName==''):
+        fileName='untitled'
+    Functions.user_namedFile=fileName+'.csv'
 # sampling , interpolation & converting to Freq domain 
 def tofrqDomain_converter(yt):
     fs= n/tmax  
