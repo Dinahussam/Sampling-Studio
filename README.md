@@ -12,6 +12,7 @@ this sampling studio is about signal sampling or Nyquist theorem which defines t
 ## Built with: 
 * [Python](#python)
 * [streamlit](#streamlit)
+* [css](#css)
 
 ## Features
 * [Generate signal](#generate_signal)
