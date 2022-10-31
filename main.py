@@ -4,7 +4,7 @@ import functions
 import pandas as pd 
 import plotly.express as px  # interactive charts
 import streamlit as st  # 🎈 data web app development
-import plotly.graph_objects as go
+import plotly.graph_objects as plot
 
 
 
@@ -39,7 +39,7 @@ sampfreq_fig=  px.density_heatmap(
          data_frame=[{}])
 shown_fig=  px.density_heatmap(
          data_frame=[{}])
-shown_fig=go.Figure()
+shown_fig=plot.Figure()
 
 toadd_fig= functions.layout_fig(toadd_fig)
 composed_fig= functions.layout_fig(composed_fig)
@@ -75,15 +75,15 @@ with st.sidebar:
     col_freq, col_amp, col_phase, col_add = st.columns([2, 2, 2,2])
     frq_value = col_freq.number_input('frequancy', min_value=0.01, value=1.0, step=1.0)
     amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
-    phase_value = col_phase.number_input('phase shift', min_value=0, max_value=360, value=0, step=5)
+    phase_value = col_phase.number_input('phase shift', min_value=-360, max_value=360, value=0, step=5)
     col_add.write('')
     col_add.write('')
     if col_add.button('ADD Signal'):
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
     col_snr_slider, col_space, col_btn_noise = st.columns([6,0.1, 2])
-    snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=10000, value=10000, label_visibility='collapsed')
-    if (snr_value != 10000):
+    snr_value = col_snr_slider.slider('SNR ratio', 0, step=1, max_value=100, value=100, label_visibility='collapsed')
+    if (snr_value != 100):
         composed_fig = functions.add_noise(False, snr_value)
     composed_fig = functions.layout_fig(composed_fig)
 
@@ -181,17 +181,20 @@ with composer_cont:
     with col_figure:
         
         if(options[0]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig , name= 'generated signal'))
+            shown_fig.add_trace(plot.Scatter(x=functions.Functions.commonXaxis ,y=Y_toaddfig , name= 'generated signal'))
         if(options[1]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig , name='composed signal'))
+            shown_fig.add_trace(plot.Scatter(x=functions.Functions.commonXaxis ,y=Y_composed_fig , name='composed signal'))
         if(options[2]):
-            shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
+            shown_fig.add_trace(plot.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
         if(options[3]):
             if(len(functions.Functions.addedSignals)>0):
                 samp_time, samp_frq= functions.sampling(samp_freq)
-                shown_fig.add_trace(go.Scatter(x=samp_time , y= samp_frq, mode="markers" ,name='sampling points'))
+                shown_fig.add_trace(plot.Scatter(x=samp_time , y= samp_frq, mode="markers" ,name='sampling points'))
+                shown_fig.update_xaxes(range=[0, 1])
             else:
-                 shown_fig.add_trace(go.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
+                 shown_fig.add_trace(plot.Scatter(x=functions.Functions.commonXaxis ,y=Y_samp_fig , name='interpolated signal'))
+        
+        shown_fig.update_xaxes(range=[0, 1])
         st.write(shown_fig)    
 # end of selecting graphs
 

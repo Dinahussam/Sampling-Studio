@@ -14,13 +14,13 @@ class Functions:
     addedAmps=[]
     addedPhases=[]
     addedSignals=[]
-    composedAmp=np.zeros(1000)
-    y_reconstractedSig=np.zeros(1000)
+    composedAmp=np.zeros(1500)
+    y_reconstractedSig=np.zeros(1500)
     options_list=['Generated Signal','Composed Signal','recovered_time domain','recovered_freq domain']
-    commonXaxis=np.linspace(0,2,1000).tolist()
+    commonXaxis=np.linspace(0,2,1500).tolist()
     default_flag=1
 tmax=2
-n=1000
+n=1500
 mainTimeAxis = np.linspace(0, tmax, n).tolist()  # Time Axis Array for all of the graphs
 
 # default functions
@@ -50,18 +50,18 @@ def layout_fig(fig):
 # signal generater & mixer
 
 def show_sin (magnitude, phase, frequency):  # Add new sin Signal
-    Y = np.zeros(1000)  # Array for saving sin Signals values
-    for i in range(1000): 
-        Y[i] = (magnitude * (math.sin((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
+    Y = np.zeros(1500)  # Array for saving sin Signals values
+    for i in range(1500): 
+        Y[i] = (magnitude * (math.cos((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
     return px.line(x=mainTimeAxis, y=Y)
 
 def show_composed():  # Add new sin Signal
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
 def add_signal(added_magnitude, added_phase,added_frequency):
-    new_y_amplitude = np.zeros(1000)  # Array for saving sin Signals values
-    for i in range(1000): 
-        new_y_amplitude[i] = (added_magnitude * (math.sin((2 * np.pi * added_frequency * mainTimeAxis[i]) + added_phase))) 
+    new_y_amplitude = np.zeros(1500)  # Array for saving sin Signals values
+    for i in range(1500): 
+        new_y_amplitude[i] = (added_magnitude * (math.cos((2 * np.pi * added_frequency * mainTimeAxis[i]) + added_phase))) 
     
     #updating lists
     Functions.numberSignalsAdded+=1
@@ -88,9 +88,8 @@ def delete_signal(index_todelete):
         
         return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
 
-def add_noise(addFlag, snrRatio):
+def add_noise(addFlag, snr_db):
     power = Functions.composedAmp**2
-    snr_db = 10 * np.log10(snrRatio)
     signal_avg_power=np.mean(power)
     signal_avg_power_db=10 * np.log10(signal_avg_power)
     noise_db=signal_avg_power_db - snr_db
@@ -113,8 +112,8 @@ def clean_all():
     Functions.addedAmps=[]
     Functions.addedPhases=[]
     Functions.addedSignals=[]
-    Functions.composedAmp=np.zeros(1000)
-    Functions.composedAmp=np.zeros(1000)
+    Functions.composedAmp=np.zeros(1500)
+    Functions.composedAmp=np.zeros(1500)
 
 
 
@@ -157,7 +156,7 @@ def tofrqDomain_converter(yt):
     return f_plot , y_f
 
 def sampling(samp_frq):
-    # samp_frq=(factor)* max(Functions.addedFreqs)
+    samp_frq=samp_frq+1
     time_range=math.ceil(mainTimeAxis[-1]-mainTimeAxis[0])
     samp_rate=int((len(mainTimeAxis)/time_range)/samp_frq)
     samp_time=mainTimeAxis[::samp_rate]
