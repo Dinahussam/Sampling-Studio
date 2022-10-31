@@ -9,6 +9,10 @@ this sampling studio is about signal sampling or Nyquist theorem which defines t
 * [File_structure](#file_structure)
 * [Technology_used](#technology_used)
 
+## Built with: 
+* [Python](#python)
+* [streamlit](#streamlit)
+
 ## Features
 * [Generate signal](#generate_signal)
 * [Add_SNR](#add_snr)
