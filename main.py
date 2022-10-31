@@ -139,10 +139,16 @@ with st.sidebar:
                 with unit:
                     st.write('Hz')
 
-    file_name = st.text_input('Write file name to be saved')
-    if st.button('Save the current resulted Signal'):
-        functions.save_signal(file_name)
-        # st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
+    file_name=st.text_input('Write file name to be saved')
+    functions.save_signalName(file_name)
+    st.download_button(
+        label="Download data as CSV",
+        data=functions.save_signal(),
+        file_name=functions.Functions.user_namedFile,
+        mime='text/csv',
+    )
+
+    # st.success("File is saved successfully as " + file_name + ".csv", icon="✅")
     
 
 toadd_fig=functions.show_sin(amplitude_value,phase_value ,frq_value )
