@@ -55,27 +55,27 @@ sampling_freq=00.1
 #sidebar components
 with st.sidebar:
 
-    col_upload1, col_upload2=st.columns([4, 2])
+    # col_upload1, col_upload2=st.columns([4, 2])
     
-    uploaded_file = col_upload1.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
-    toexist =col_upload2.button('Upload to existing')
-    clearfirst=col_upload2.button('Clear then upload')
+    uploaded_file = st.file_uploader('upload the Signal file', ['csv'], help='upload your Signal file', label_visibility='collapsed')
+    # toexist =col_upload2.button('Upload to existing')
+    # clearfirst=col_upload2.button('Clear then upload')
     if (uploaded_file):
         df = pd.read_csv(uploaded_file)
-        if toexist:
-            composed_fig = functions.upload_signal(0, df['frequencies'], df['amplitudes'], df['phases'],
+    
+        composed_fig = functions.upload_signal( df['frequencies'], df['amplitudes'], df['phases'],
                                                     df['numberOfSignals'])
-        if clearfirst:
-            composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
-                                                    df['numberOfSignals'])
+        # if clearfirst:
+        #     composed_fig = functions.upload_signal(1, df['frequencies'], df['amplitudes'], df['phases'],
+        #                                             df['numberOfSignals'])
 
 
 
 
     col_freq, col_amp, col_phase, col_add = st.columns([2, 2, 2,2])
-    frq_value = col_freq.number_input('frequancy', min_value=0.01, value=1.0, step=1.0)
-    amplitude_value = col_amp.number_input('amplitude', min_value=0.01, value=1.0, step=1.0)
-    phase_value = col_phase.number_input('phase shift', min_value=-360, max_value=360, value=0, step=5)
+    frq_value = col_freq.number_input('Frequancy', min_value=0.01, value=1.0, step=1.0)
+    amplitude_value = col_amp.number_input('Amplitude', min_value=0.01, value=1.0, step=1.0)
+    phase_value = col_phase.number_input('Phase shift', min_value=-360, max_value=360, value=0, step=5)
     col_add.write('')
     col_add.write('')
     if col_add.button('Add signal'):
@@ -87,11 +87,11 @@ with st.sidebar:
         composed_fig = functions.add_noise(False, snr_value)
     composed_fig = functions.layout_fig(composed_fig)
 
-    if col_btn_noise.button('SNR ratio'):
+    if col_btn_noise.button('Add SNR '):
         composed_fig = functions.add_noise(True, snr_value)
         composed_fig = functions.layout_fig(composed_fig)
 
-    col_choose_delete,col_space ,col_btn_delete = st.columns([6,0.1, 1.8])
+    col_choose_delete,col_btn_delete ,col_btn_clear = st.columns([7.5,1.8,2])
     if (len(functions.Functions.addedSignals)):
         todelete_list = []
         for signal in range(len(functions.Functions.addedSignals)):
@@ -105,6 +105,9 @@ with st.sidebar:
             for todeleteSigindex in range(len(todelete_list)):
                 if (todelete_list[todeleteSigindex]):
                     functions.delete_signal(todeleteSigindex)
+        
+        if col_btn_clear.button(' Clear all'):
+            functions.clean_all()
     else:
         st.title("You have no added signals to Sample or Delete")
 
@@ -138,9 +141,8 @@ with st.sidebar:
                 sampfreq_fig = functions.layout_fig(sampfreq_fig)
                 with unit:
                     st.write('Hz')
-
-    file_name=st.text_input('Write file name to be saved')
-    functions.save_signalName(file_name)
+    file_name=st.text_input('Write file name to be saved',placeholder='untitled')
+    functions.save_signal_name(file_name)
     st.download_button(
         label="Download data as CSV",
         data=functions.save_signal(),
@@ -174,7 +176,7 @@ with composer_cont:
         st.write('')
         st.write('')
         st.write('')
-        st.markdown("## Signal Mixer")
+        st.markdown("### Signal mixer")
         options[0]=st.checkbox('Generated signal', value=False)
 
         options[1]=st.checkbox('Composed signal', value=True)
