@@ -46,16 +46,24 @@ def layout_fig(fig):
             pad=1
         ),
         
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        
     )
     return fig
 
 # signal generater & mixer
 
 def show_sin (magnitude, phase, frequency):  # Add new sin Signal
-    Y = np.zeros(1500)  # Array for saving sin Signals values
+    Y_axis = np.zeros(1500)  # Array for saving sin Signals values
     for i in range(1500): 
-        Y[i] = (magnitude * (math.cos((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
-    return px.line(x=mainTimeAxis, y=Y)
+        Y_axis[i] = (magnitude * (math.cos((2 * np.pi * frequency * mainTimeAxis[i]) + phase)))
+    return px.line(x=mainTimeAxis, y=Y_axis)
 
 def show_composed():  # Add new sin Signal
     return go.Figure([go.Scatter(x=mainTimeAxis, y=Functions.composedAmp)])
