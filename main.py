@@ -78,7 +78,7 @@ with st.sidebar:
     phase_value = col_phase.number_input('phase shift', min_value=-360, max_value=360, value=0, step=5)
     col_add.write('')
     col_add.write('')
-    if col_add.button('ADD Signal'):
+    if col_add.button('Add signal'):
         composed_fig = functions.add_signal(amplitude_value, phase_value, frq_value)
         composed_fig = functions.layout_fig(composed_fig)
     col_snr_slider, col_space, col_btn_noise = st.columns([6,0.1, 2])
@@ -101,7 +101,7 @@ with st.sidebar:
                                        default=None)
     
        
-        if col_btn_delete.button(' DELETE '):
+        if col_btn_delete.button(' Delete '):
             for todeleteSigindex in range(len(todelete_list)):
                 if (todelete_list[todeleteSigindex]):
                     functions.delete_signal(todeleteSigindex)
@@ -111,9 +111,9 @@ with st.sidebar:
     
 
     if (len(functions.Functions.addedSignals)):
-        freqPresentationOptions= st.radio('sampling freq' ,('normalized Sampling freq' , 'actual Sampling freq'), index=0, horizontal=True, label_visibility='collapsed' )
+        freqPresentationOptions= st.radio('sampling freq' ,('Normalized sampling freq' , 'Actual sampling freq'), index=0, horizontal=True, label_visibility='collapsed' )
 
-        if(freqPresentationOptions=='normalized Sampling freq'):
+        if(freqPresentationOptions=='Normalized sampling freq'):
             factorSlider, unit = st.columns((8,3))
             if (len(functions.Functions.addedFreqs) > 0):
                 maxFreq = max(functions.Functions.addedFreqs)
@@ -126,7 +126,7 @@ with st.sidebar:
                 sampfreq_fig = functions.layout_fig(sampfreq_fig)
                 with unit:
                     st.write('fmax')
-        elif(freqPresentationOptions== 'actual Sampling freq'):
+        elif(freqPresentationOptions== 'Actual sampling freq'):
             factorSlider, unit = st.columns((8,3))
             if (len(functions.Functions.addedFreqs) > 0):
                 maxFreq = max(functions.Functions.addedFreqs)
@@ -177,7 +177,7 @@ with composer_cont:
         st.markdown("## Signal Mixer")
         options[0]=st.checkbox('Generated signal', value=False)
 
-        options[1]=st.checkbox('composed signal', value=True)
+        options[1]=st.checkbox('Composed signal', value=True)
 
         options[2]=st.checkbox('Sampled signal', value=False)
 
