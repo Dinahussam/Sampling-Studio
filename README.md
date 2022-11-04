@@ -1,5 +1,8 @@
 # Sampling Studio 
-![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/home_page.jpg)
+
+<p align="center">
+    <img src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/bandicam%202022-11-04%2010-31-00-828.jpg">
+</p>
 
 
 ## Description:
