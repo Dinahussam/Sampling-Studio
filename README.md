@@ -1,5 +1,7 @@
 # Sampling Studio 
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/home_page.jpg)
+
+
 ## Description:
 this sampling studio is about signal sampling or Nyquist theorem which defines the min sample rate for the highest frequency, it is a principle to reproduce pure waves which must be at least twice its frequency. it is shown how to add, delete, generate a signal, and show, and add noise.
 
