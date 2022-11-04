@@ -41,6 +41,13 @@ You can add SNR and showing how the noise changes the signal.
     <img src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/SNR%20.jpg">
 </p>
 
+### Delete_signal
+You can delete any signal after added it.
+
+<p align="center">
+    <img src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/delete.jpg">
+</p>
+
 ### Save_signal_as_CSV_file:
 You can save your signal as CSV file in your browser and you can complete your process in your signal when you upload it.
 
