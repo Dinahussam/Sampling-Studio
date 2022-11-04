@@ -53,7 +53,7 @@ You can show max frequency and changing sample frequency, show over-sampling and
 
 ![repo 1-1](https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/sampling.jpg)
 <p align="center">
-    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq_factor.jpg">
+    <img src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/freq.jpg">
 </p>
 
 
