@@ -36,7 +36,7 @@ You can add SNR and showing how the noise changes the signal.
 
 
 <p align="center">
-    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/snr.jpg">
+    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/SNR%20.jpg">
 </p>
 
 ### Save_signal_as_CSV_file:
