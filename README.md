@@ -27,16 +27,14 @@ this sampling studio is about signal sampling or Nyquist theorem which defines t
 You can generate a signal by choosing the frequency, amplitude, and phase shift that you want to generate it or upload it from your browser and also you can add several signals to each other to generate a new signal from them.
 
 
-<p align="center">
-    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/generate.jpg">
-</p>
+
 
 ### Add_SNR:
 You can add SNR and showing how the noise changes the signal.
 
 
 <p align="center">
-    <img width="400" height="150" src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/SNR%20.jpg">
+    <img src="https://github.com/alaayasser01/DSP_Task1_14/blob/main/photos/SNR%20.jpg">
 </p>
 
 ### Save_signal_as_CSV_file:
