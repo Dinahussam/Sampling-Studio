@@ -13,6 +13,7 @@ this sampling studio is about signal sampling or Nyquist theorem which defines t
 * [Features](#features)
 * [File_structure](#file_structure)
 * [Technology_used](#technology_used)
+* [Team](#team)
 
 ## Built with: 
 * [Python](#python)
@@ -22,7 +23,7 @@ this sampling studio is about signal sampling or Nyquist theorem which defines t
 ## Features
 * [Generate signal](#generate_signal)
 * [Add_SNR](#add_snr)
-* [Save signal as CSV file](#save_signal_as_CSV_file)
+* [Save signal as CSV file](#save_signal_as_csv_file)
 * [Sampling and recover signal](#sampling_and_recover_signal)
 * [Sampling points](#sampling_points)
 * [Save signal as png photo](#save_signal_as_png_photo)
@@ -96,10 +97,18 @@ the other is the fuctions file which devided into 3 sections :
 ## Technology_used:
 Streamlit 
 
-## team members: 
+## Team
 
-- alaa yasser 
-- dina hussam 
-- dina mostafa
-- mariam mohamed 
+First Semester - Biomedical Digital Signal Processing (SBE3110) class project created by:
 
+| Team Members' Names                                  | Section | B.N. |
+| ---------------------------------------------------- | :-----: | :--: |
+| [Alaa Yasser](https://github.com/alaayasser01)         |    1    |  13  |
+| [Dina Hussam](https://github.com/Dinahussam)       |    1    |  28  |
+| [Dina Mostafa](https://github.com/Dina153) |    1    |  30  |
+| [Mariam Mohamed](https://github.com/mariamMohammed0)       |    2    |  34  |
+
+## Submitted to:
+
+- Dr. Tamer Basha & Eng. Abdullah Darwish
+  All rights reserved © 2023 to Team 14 - Systems & Biomedical Engineering, Cairo University (Class 2024)
